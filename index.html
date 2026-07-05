@@ -5,727 +5,114 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f6f2ea" />
-  <title>Europe Souvenir Rec</title>
+  <title>eurotrip</title>
   <style>
-    :root {
-      --bg: #f6f2ea;
-      --card: #fffdf8;
-      --text: #171410;
-      --muted: #746d64;
-      --soft: #e9e1d4;
-      --line: rgba(23,20,16,.12);
-      --line-strong: rgba(23,20,16,.22);
-      --accent: #8a6428;
-      --good: #4e684f;
-      --bad: #8f4b3f;
-      --radius: 18px;
-      --shadow: 0 8px 22px rgba(32, 26, 18, .075);
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      -webkit-text-size-adjust: 100%;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    body.modal-lock { overflow: hidden; }
-
-    a { color: inherit; }
-    button, input, select, summary { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
-
-    .visually-hidden {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
-
-    .wrap {
-      width: min(980px, calc(100% - 28px));
-      margin: 0 auto;
-      padding: 18px 0 44px;
-    }
-
-    header {
-      padding: 2px 0 14px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(30px, 8vw, 48px);
-      line-height: 1;
-      letter-spacing: -.045em;
-      font-weight: 900;
-    }
-
-    .controls {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      padding: 9px 0 11px;
-      background: rgba(246,242,234,.94);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(23,20,16,.06);
-      margin-bottom: 10px;
-    }
-
-    .search-line {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      margin-bottom: 9px;
-    }
-
-    .search {
-      width: 100%;
-      min-height: 42px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--card);
-      color: var(--text);
-      padding: 0 13px;
-      outline: none;
-      box-shadow: none;
-      font-size: 14px;
-    }
-
-    .search::placeholder { color: #9d958b; }
-
-    .saved-toggle {
-      min-width: 46px;
-      min-height: 42px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--card);
-      color: var(--text);
-      cursor: pointer;
-      font-weight: 900;
-    }
-
-    .saved-toggle[aria-pressed="true"] {
-      background: var(--text);
-      color: var(--card);
-      border-color: var(--text);
-    }
-
-    .tabs {
-      display: flex;
-      gap: 7px;
-      overflow-x: auto;
-      padding-bottom: 1px;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .tabs::-webkit-scrollbar { display: none; }
-
-    .tab {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: transparent;
-      color: var(--muted);
-      padding: 9px 12px;
-      white-space: nowrap;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 760;
-    }
-
-    .tab.active {
-      background: var(--text);
-      color: var(--card);
-      border-color: var(--text);
-    }
-
-    details.filters {
-      margin-top: 9px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: rgba(255,253,248,.55);
-      overflow: hidden;
-    }
-
-    details.filters summary {
-      min-height: 40px;
-      padding: 0 13px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-      list-style: none;
-    }
-
-    details.filters summary::-webkit-details-marker { display: none; }
-
-    details.filters summary::after {
-      content: "+";
-      color: var(--text);
-      font-weight: 900;
-    }
-
-    details.filters[open] summary::after { content: "–"; }
-
-    .filter-line {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      padding: 0 8px 8px;
-    }
-
-    select {
-      min-height: 40px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--card);
-      color: var(--text);
-      padding: 0 12px;
-      outline: none;
-      font-size: 13px;
-      font-weight: 760;
-    }
-
-    .status {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      color: var(--muted);
-      font-size: 12.5px;
-      margin: 0 0 10px;
-    }
-
-    .status strong { color: var(--text); }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      transition: transform .15s ease, border-color .15s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: var(--line-strong);
-    }
-
-    .media {
-      position: relative;
-      aspect-ratio: 4 / 3;
-      background: var(--soft);
-      overflow: hidden;
-    }
-
-    .media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(.96);
-    }
-
-    .image-fallback {
-      display: none;
-      place-items: center;
-      height: 100%;
-      padding: 14px;
-      color: var(--muted);
-      text-align: center;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .badge, .save {
-      position: absolute;
-      top: 9px;
-      min-height: 32px;
-      border-radius: 999px;
-      border: 1px solid rgba(23,20,16,.1);
-      background: rgba(255,253,248,.9);
-      color: var(--text);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .badge {
-      left: 9px;
-      padding: 0 9px;
-      display: inline-flex;
-      align-items: center;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .save {
-      right: 9px;
-      width: 36px;
-      cursor: pointer;
-      font-size: 17px;
-      font-weight: 900;
-    }
-
-    .save[aria-pressed="true"] {
-      background: var(--text);
-      color: var(--card);
-      border-color: var(--text);
-    }
-
-    .content {
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      flex: 1;
-    }
-
-    .meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 10.5px;
-      font-weight: 850;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    .meta span:last-child { color: var(--accent); }
-
-    .card h2 {
-      margin: 0;
-      font-size: 18px;
-      line-height: 1.05;
-      letter-spacing: -.035em;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12.75px;
-      line-height: 1.36;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 1px;
-    }
-
-    .chip {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 4px 6px;
-      color: var(--muted);
-      background: rgba(246,242,234,.72);
-      font-size: 10px;
-      font-weight: 780;
-    }
-
-    .links {
-      display: flex;
-      gap: 7px;
-      margin-top: auto;
-      padding-top: 2px;
-    }
-
-    .mini-link {
-      flex: 1;
-      min-height: 34px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 850;
-      background: #faf7f0;
-    }
-
-    .empty {
-      display: none;
-      background: var(--card);
-      border: 1px dashed var(--line-strong);
-      border-radius: var(--radius);
-      padding: 28px;
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .empty.show { display: block; }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: none;
-      align-items: end;
-      background: rgba(23,20,16,.22);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .modal.open { display: flex; }
-
-    .sheet {
-      width: 100%;
-      max-height: 94vh;
-      background: var(--card);
-      border-radius: 24px 24px 0 0;
-      overflow: auto;
-      box-shadow: 0 -18px 60px rgba(23,20,16,.18);
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .handle {
-      width: 44px;
-      height: 5px;
-      background: rgba(23,20,16,.18);
-      border-radius: 999px;
-      margin: 10px auto;
-    }
-
-    .modal-media {
-      position: relative;
-      height: 250px;
-      background: var(--soft);
-      overflow: hidden;
-    }
-
-    .modal-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .modal-fallback {
-      display: none;
-      height: 100%;
-      place-items: center;
-      padding: 20px;
-      color: var(--muted);
-      text-align: center;
-      font-weight: 850;
-    }
-
-    .close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      border: 1px solid rgba(23,20,16,.12);
-      background: rgba(255,253,248,.9);
-      color: var(--text);
-      cursor: pointer;
-      font-size: 22px;
-    }
-
-    .modal-body {
-      padding: 17px 16px 26px;
-    }
-
-    .modal-kicker {
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .modal h3 {
-      margin: 0;
-      font-size: clamp(30px, 9vw, 46px);
-      line-height: .95;
-      letter-spacing: -.05em;
-    }
-
-    .dek {
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.48;
-    }
-
-    .move {
-      margin: 14px 0;
-      padding: 11px;
-      border-radius: 14px;
-      background: var(--bg);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 13.5px;
-      line-height: 1.42;
-    }
-
-    .move strong { color: var(--text); }
-
-    .action-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin: 14px 0 16px;
-    }
-
-    .action {
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 870;
-      border: 1px solid var(--text);
-    }
-
-    .action.primary {
-      background: var(--text);
-      color: var(--card);
-    }
-
-    .action.secondary {
-      background: transparent;
-      color: var(--text);
-      border-color: var(--line-strong);
-    }
-
-    .info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin: 0 0 16px;
-    }
-
-    .info div {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 10px;
-      background: #fbf8f1;
-    }
-
-    .label {
-      display: block;
-      color: var(--accent);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-
-    .value {
-      color: var(--text);
-      font-size: 13px;
-      line-height: 1.35;
-      overflow-wrap: anywhere;
-    }
-
-    .section {
-      border-top: 1px solid var(--line);
-      padding-top: 14px;
-      margin-top: 14px;
-    }
-
-    .section h4 {
-      margin: 0 0 7px;
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .section p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .buy { color: var(--good) !important; }
-    .skip { color: var(--bad) !important; }
-
-    .source-note {
-      margin-top: 14px;
-      color: #8f867b;
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .footnote {
-      margin-top: 24px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-      border-top: 1px solid var(--line);
-      padding-top: 14px;
-    }
-
-    @media (max-width: 860px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 620px) {
-      .wrap {
-        width: min(100% - 20px, 980px);
-        padding-top: 13px;
-      }
-
-      header {
-        padding-bottom: 12px;
-      }
-
-      h1 {
-        font-size: 34px;
-        letter-spacing: -.04em;
-        line-height: 1;
-      }
-
-      .filter-line {
-        grid-template-columns: 1fr;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-      .card {
-        display: grid;
-        grid-template-columns: 104px 1fr;
-        min-height: 160px;
-      }
-
-      .media {
-        aspect-ratio: auto;
-        height: 100%;
-      }
-
-      .content {
-        padding: 11px;
-      }
-
-      .card h2 {
-        font-size: 17.5px;
-      }
-
-      .card p {
-        font-size: 12.5px;
-      }
-
-      .info {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (min-width: 760px) {
-      .modal {
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-
-      .sheet {
-        max-width: 900px;
-        border-radius: 24px;
-        display: grid;
-        grid-template-columns: .9fr 1.1fr;
-        max-height: 88vh;
-      }
-
-      .handle { display: none; }
-
-      .modal-media {
-        height: auto;
-        min-height: 580px;
-      }
-
-      .modal-body {
-        overflow: auto;
-        padding: 24px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        transition-duration: .001ms !important;
-        animation-duration: .001ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
+    :root{
+      --bg:#f6f2ea; --card:#fffdf8; --text:#171410; --muted:#746d64;
+      --soft:#e9e1d4; --line:rgba(23,20,16,.12); --line2:rgba(23,20,16,.22);
+      --accent:#8a6428; --good:#4e684f; --bad:#8f4b3f; --warn:#9b6a24;
+      --radius:18px; --shadow:0 8px 22px rgba(32,26,18,.075);
+    }
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body.modal-lock{overflow:hidden}
+    a{color:inherit} button,input,select{font:inherit} button{-webkit-tap-highlight-color:transparent}
+    .wrap{width:min(1040px,calc(100% - 28px));margin:0 auto;padding:18px 0 44px}
+    header{padding:2px 0 14px;border-bottom:1px solid var(--line);margin-bottom:12px}
+    h1{margin:0;font-size:clamp(34px,8vw,54px);line-height:1;letter-spacing:-.045em;font-weight:900;text-transform:lowercase}
+    .trip-meta{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.4}
+    .controls{position:sticky;top:0;z-index:20;padding:9px 0 11px;background:rgba(246,242,234,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(23,20,16,.06);margin-bottom:10px}
+    .search-line{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:9px}
+    .search{width:100%;min-height:42px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--text);padding:0 13px;outline:none;box-shadow:none;font-size:14px}
+    .saved-toggle{min-width:46px;min-height:42px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--text);cursor:pointer;font-weight:900}
+    .saved-toggle[aria-pressed=true]{background:var(--text);color:var(--card);border-color:var(--text)}
+    .tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:1px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .tabs::-webkit-scrollbar{display:none}
+    .tab{border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);padding:9px 12px;white-space:nowrap;cursor:pointer;font-size:13px;font-weight:760}
+    .tab.active{background:var(--text);color:var(--card);border-color:var(--text)}
+    .filters{display:flex;gap:7px;margin-top:9px;overflow-x:auto;scrollbar-width:none}
+    .filters::-webkit-scrollbar{display:none}
+    .filter{border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--muted);padding:8px 10px;white-space:nowrap;cursor:pointer;font-size:12px;font-weight:800}
+    .filter.active{background:#ede2d0;color:var(--text);border-color:var(--line2)}
+    .status{display:flex;justify-content:space-between;gap:14px;color:var(--muted);font-size:12.5px;margin:0 0 10px}
+    .status strong{color:var(--text)}
+    .view{display:none}.view.active{display:block}
+    .day{margin:0 0 16px}
+    .day-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:8px 0;margin:0 0 8px}
+    .day-head h2{margin:0;font-size:18px;letter-spacing:-.025em}
+    .day-head span{color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    .list{display:grid;gap:9px}
+    .row-card,.place-card,.transit-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px}
+    .event-top{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start}
+    .time{min-width:72px;color:var(--accent);font-weight:900;font-size:12px;line-height:1.25;text-transform:uppercase}
+    .row-title{margin:0 0 4px;font-size:16px;letter-spacing:-.02em;line-height:1.12}
+    .row-sub,.details{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+    .badge{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:5px 7px;color:var(--muted);background:rgba(246,242,234,.72);font-size:10px;font-weight:850;white-space:nowrap}
+    .badge.booked{color:var(--good)}.badge.needs{color:var(--warn)}.badge.idea{color:var(--muted)}
+    .actions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+    .link{min-height:34px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:12px;font-weight:850;background:#faf7f0;padding:0 12px}
+    .link.primary{background:var(--text);border-color:var(--text);color:var(--card)}
+    .section-title{margin:18px 0 8px;font-size:15px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.1em}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .place-grid,.transit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .place-card h3,.transit-card h3{margin:0 0 5px;font-size:17px;letter-spacing:-.025em}
+    .small-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+    .address{color:var(--text);font-size:13px;line-height:1.4;margin:0 0 8px}
+    .notes{color:var(--muted);font-size:13px;line-height:1.4;margin:0}
+    .souvenir-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+    .media{position:relative;aspect-ratio:4/3;background:var(--soft);overflow:hidden}
+    .media img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.96)}
+    .image-fallback{display:none;place-items:center;height:100%;padding:14px;color:var(--muted);text-align:center;font-size:12px;font-weight:800}
+    .rank,.save{position:absolute;top:9px;min-height:32px;border-radius:999px;border:1px solid rgba(23,20,16,.1);background:rgba(255,253,248,.9);color:var(--text);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    .rank{left:9px;padding:0 9px;display:inline-flex;align-items:center;font-size:12px;font-weight:900}
+    .save{right:9px;width:36px;cursor:pointer;font-size:17px;font-weight:900}
+    .save[aria-pressed=true]{background:var(--text);color:var(--card);border-color:var(--text)}
+    .content{padding:12px;display:flex;flex-direction:column;gap:7px;flex:1}
+    .card-meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:10.5px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+    .card-meta span:last-child{color:var(--accent)}
+    .souvenir-card h3{margin:0;font-size:18px;line-height:1.05;letter-spacing:-.035em}
+    .souvenir-card p{margin:0;color:var(--muted);font-size:12.75px;line-height:1.36}
+    .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:1px}
+    .chip{border:1px solid var(--line);border-radius:999px;padding:4px 6px;color:var(--muted);background:rgba(246,242,234,.72);font-size:10px;font-weight:780}
+    .empty{display:none;background:var(--card);border:1px dashed var(--line2);border-radius:var(--radius);padding:28px;text-align:center;color:var(--muted)}
+    .empty.show{display:block}
+    .privacy{margin-top:18px;border:1px solid var(--line);background:#fbf8f1;border-radius:var(--radius);padding:12px;color:var(--muted);font-size:12.5px;line-height:1.45}
+    .modal{position:fixed;inset:0;z-index:100;display:none;align-items:end;background:rgba(23,20,16,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .modal.open{display:flex}.sheet{width:100%;max-height:94vh;background:var(--card);border-radius:24px 24px 0 0;overflow:auto;box-shadow:0 -18px 60px rgba(23,20,16,.18);-webkit-overflow-scrolling:touch}
+    .handle{width:44px;height:5px;background:rgba(23,20,16,.18);border-radius:999px;margin:10px auto}.modal-media{position:relative;height:250px;background:var(--soft);overflow:hidden}.modal-media img{width:100%;height:100%;object-fit:cover;display:block}
+    .modal-fallback{display:none;height:100%;place-items:center;padding:20px;color:var(--muted);text-align:center;font-weight:850}
+    .close{position:absolute;top:12px;right:12px;width:42px;height:42px;border-radius:999px;border:1px solid rgba(23,20,16,.12);background:rgba(255,253,248,.9);color:var(--text);cursor:pointer;font-size:22px}
+    .modal-body{padding:17px 16px 26px}.modal-kicker{color:var(--accent);font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}.modal h3{margin:0;font-size:clamp(30px,9vw,46px);line-height:.95;letter-spacing:-.05em}.dek{margin:10px 0 0;color:var(--muted);font-size:14px;line-height:1.48}
+    .info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 16px}.info div{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fbf8f1}.label{display:block;color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}.value{color:var(--text);font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+    .modal-section{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.modal-section h4{margin:0 0 7px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}.modal-section p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}.buy{color:var(--good)!important}.skip{color:var(--bad)!important}
+    .footnote{margin-top:24px;color:var(--muted);font-size:12px;line-height:1.45;border-top:1px solid var(--line);padding-top:14px}
+    @media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}.place-grid,.transit-grid{grid-template-columns:1fr}}
+    @media(max-width:620px){.wrap{width:min(100% - 20px,1040px);padding-top:13px}h1{font-size:36px}.event-top{grid-template-columns:1fr auto}.time{grid-column:1 / -1;min-width:0}.grid{grid-template-columns:1fr;gap:10px}.souvenir-card{display:grid;grid-template-columns:104px 1fr;min-height:160px}.media{aspect-ratio:auto;height:100%}.content{padding:11px}.souvenir-card h3{font-size:17.5px}.souvenir-card p{font-size:12.5px}.info{grid-template-columns:1fr}.filters{padding-bottom:1px}}
+    @media(min-width:760px){.modal{align-items:center;justify-content:center;padding:20px}.sheet{max-width:900px;border-radius:24px;display:grid;grid-template-columns:.9fr 1.1fr;max-height:88vh}.handle{display:none}.modal-media{height:auto;min-height:580px}.modal-body{overflow:auto;padding:24px}}
   </style>
 </head>
 <body>
   <main class="wrap">
     <header>
-      <h1>Europe Souvenir Rec</h1>
+      <h1>eurotrip</h1>
+      <p class="trip-meta">July 13–25, 2026 · London → Tomorrowland → Amsterdam → Lisbon · Chris / Angeline / Jen</p>
     </header>
 
     <section class="controls" aria-label="Guide controls">
       <div class="search-line">
-        <label for="searchInput" class="visually-hidden">Search souvenirs</label>
-        <input id="searchInput" class="search" type="search" placeholder="Search items, city, category…" autocomplete="off" />
-        <button id="savedOnlyBtn" class="saved-toggle" type="button" aria-pressed="false" aria-label="Show saved only">♡</button>
+        <label for="searchInput" style="position:absolute;left:-999px">Search</label>
+        <input id="searchInput" class="search" type="search" placeholder="Search timeline, places, souvenirs…" autocomplete="off" />
+        <button id="savedOnlyBtn" class="saved-toggle" type="button" aria-pressed="false" aria-label="Show saved souvenirs only">♡</button>
       </div>
-
-      <nav class="tabs" aria-label="City filters">
-        <button class="tab active" data-filter="All" type="button">All</button>
-        <button class="tab" data-filter="Lisbon" type="button">Lisbon</button>
-        <button class="tab" data-filter="Amsterdam" type="button">Amsterdam</button>
-        <button class="tab" data-filter="London" type="button">London</button>
-        <button class="tab" data-filter="Belgium / Tomorrowland" type="button">Tomorrowland</button>
+      <nav class="tabs" aria-label="Main sections">
+        <button class="tab active" data-view="timeline" type="button">Timeline</button>
+        <button class="tab" data-view="places" type="button">Places</button>
+        <button class="tab" data-view="transit" type="button">Transit</button>
+        <button class="tab" data-view="souvenirs" type="button">Souvenirs</button>
+        <button class="tab" data-view="info" type="button">Info</button>
       </nav>
-
-      <details class="filters">
-        <summary>More filters</summary>
-        <div class="filter-line">
-          <label>
-            <span class="visually-hidden">Category</span>
-            <select id="categorySelect"><option value="All">All categories</option></select>
-          </label>
-          <label>
-            <span class="visually-hidden">Priority</span>
-            <select id="tierSelect">
-              <option value="All">All priorities</option>
-              <option value="Must">Must</option>
-              <option value="Nearby">Nearby</option>
-              <option value="Maybe">Maybe</option>
-            </select>
-          </label>
-        </div>
-      </details>
+      <div class="filters" id="cityFilters" aria-label="City filters"></div>
     </section>
 
     <div class="status">
@@ -733,10 +120,14 @@
       <span id="savedCount">0 saved</span>
     </div>
 
-    <section id="grid" class="grid" aria-live="polite"></section>
-    <div id="emptyState" class="empty">No matches. Clear a filter.</div>
+    <section id="timeline" class="view active"></section>
+    <section id="places" class="view"></section>
+    <section id="transit" class="view"></section>
+    <section id="souvenirs" class="view"></section>
+    <section id="info" class="view"></section>
+    <div id="emptyState" class="empty">No matches. Clear search or switch tabs.</div>
 
-    <p class="footnote">Map buttons open Google Maps search links. Source buttons open the reference/store page. Check hours before you go.</p>
+    <p class="footnote">Map buttons open Google Maps search links. Source buttons open official/reference pages where available. Check hours and live transport status before you move.</p>
   </main>
 
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -747,277 +138,253 @@
         <div id="modalFallback" class="modal-fallback">Image unavailable.</div>
         <button class="close" type="button" aria-label="Close">×</button>
       </div>
-
       <div class="modal-body">
         <div class="modal-kicker" id="modalKicker"></div>
         <h3 id="modalTitle"></h3>
         <p class="dek" id="modalShort"></p>
-
         <div class="chips" id="modalTags"></div>
-
-        <p class="move"><strong>Move:</strong> <span id="modalVisitNote"></span></p>
-
-        <div class="action-row">
-          <a class="action primary" id="modalMap" target="_blank" rel="noopener noreferrer">Open map</a>
-          <a class="action secondary" id="modalSource" target="_blank" rel="noopener noreferrer">Open source</a>
-        </div>
-
-        <div class="info">
-          <div><span class="label">Where</span><span class="value" id="modalWhere"></span></div>
-          <div><span class="label">Price</span><span class="value" id="modalPrice"></span></div>
-          <div><span class="label">Priority</span><span class="value" id="modalPriority"></span></div>
-          <div><span class="label">Packing</span><span class="value" id="modalPacking"></span></div>
-        </div>
-
-        <div class="section"><h4>Why</h4><p id="modalWhy"></p></div>
-        <div class="section"><h4>Lore</h4><p id="modalLore"></p></div>
-        <div class="section"><h4>Buy rule</h4><p class="buy" id="modalBuy"></p></div>
-        <div class="section"><h4>Skip rule</h4><p class="skip" id="modalSkip"></p></div>
-        <p class="source-note" id="modalSourceNote"></p>
+        <div class="actions" id="modalActions"></div>
+        <div class="info" id="modalInfo"></div>
+        <div id="modalSections"></div>
       </div>
     </article>
   </div>
 
-  <script>
-    const ITEMS = [{"rank": 1, "city": "Lisbon", "title": "Portuguese tinned fish", "short": "Conservas from Lisbon, preferably Conserveira de Lisboa.", "photo": "https://www.myglobalviewpoint.com/wp-content/uploads/2024/07/Conserveira-de-Lisboa.webp", "tags": ["Pantry", "Gift", "Best overall"], "price": "€3–€10 per tin", "priority": "Main haul", "where": "Conserveira de Lisboa, Rua dos Bacalhoeiros 34/34A", "why": "Best souvenir-to-usefulness ratio on the whole trip. It looks good, travels well, feeds you later, and does not scream airport gift shop.", "lore": "Portugal has a deep conservas culture tied to the Atlantic and old-school preservation. Conserveira de Lisboa opened in 1930 and later became almost exclusively specialized in canned fish conserves, with Portuguese staples like cod, sardines, tuna, salmon, octopus, mackerel, eel, and trout.", "buyRule": "Buy on July 24. Get a spread: sardines, mackerel, tuna, spicy options, and one gorgeous label for gifting.", "skipIf": "Skip novelty birthday-year sardine tins unless the packaging is genuinely good. Cute can become dumb fast.", "packing": "Checked bag preferred. Declare food when entering the U.S.", "source": "https://lojascomhistoria.pt/shops/conserveira-de-lisboa", "photoFallback": "https://source.unsplash.com/1200x900/?portuguese,canned,sardines", "category": "Pantry", "tier": "Must", "visitNote": "Lisbon final buy day. Pack it once.", "sourceNote": "Verified historic shop listing used because the official homepage can be flaky.", "mapQuery": "Conserveira de Lisboa Rua dos Bacalhoeiros 34 Lisboa Portugal", "imageAlt": "Portuguese tinned fish reference image", "verified": "Audited July 2026"}, {"rank": 2, "city": "Lisbon", "title": "Companhia Portugueza do Chá tea", "short": "Tea from the São Bento / Poço dos Negros zone.", "photo": "https://www.avidaportuguesa.com/assets/uploads/store/products/alimentacao/cha_lisbonb_1_cpc.jpg", "tags": ["Gift", "Light", "Near stay"], "price": "€6–€20", "priority": "High", "where": "Companhia Portugueza do Chá, Rua do Poço dos Negros 105", "why": "Light, elegant, and easy to gift. Better than dragging back another fragile thing you’ll resent by airport security.", "lore": "This Lisbon tea shop is known for artisanal blends and a proper old-world retail atmosphere. The packaging has that quiet Portuguese charm: not loud, not desperate, just handsome.", "buyRule": "Buy Lisbon Breakfast or a house blend. Ask what is most Portuguese or shop-specific.", "skipIf": "Skip generic English Breakfast if it feels like something you could buy at home with better marketing.", "packing": "Carry-on or checked. Declare food.", "source": "https://companhiaportuguezadocha.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?tea,shop,lisbon", "category": "Pantry", "tier": "Must", "visitNote": "Near São Bento. Easy early Lisbon hit.", "sourceNote": "Official tea shop site.", "mapQuery": "Companhia Portugueza do Chá Rua do Poço dos Negros 105 Lisboa Portugal", "imageAlt": "Companhia Portugueza do Chá tea reference image", "verified": "Audited July 2026"}, {"rank": 3, "city": "Lisbon", "title": "Piri-piri sauce", "short": "Cheap, useful heat. The Continente 200 ml bottle is the ugly-beautiful workhorse.", "photo": "https://www.continente.pt/dw/image/v2/BDVS_PRD/on/demandware.static/-/Sites-col-master-catalog/default/dw388db8ee/images/col/551/5510134-hero.jpg?sh=2000&sw=2000", "tags": ["Pantry", "Cheap", "Checked bag"], "price": "€0.55–€6", "priority": "High", "where": "Continente, Pingo Doce, A Vida Portuguesa", "why": "This is the kind of tiny pantry item that makes dinner better six months later. That is the whole point.", "lore": "Piri-piri lives in the Portuguese orbit through centuries of travel, trade, and colonial history. In modern use, it’s grilled chicken, seafood, eggs, sandwiches, and little sparks of danger where bland food goes to die.", "buyRule": "Buy two: one supermarket workhorse, one nicer bottle if packaging earns it.", "skipIf": "Skip if it’s a big bottle. Sauce isn’t a personality, and luggage leaks are biblical.", "packing": "Checked bag only if over 100 ml. Tape the cap, double-bag it.", "source": "https://www.continente.pt/produto/molho-piri-piri-continente-continente-5510134.html", "photoFallback": "https://source.unsplash.com/1200x900/?piri,piri,sauce", "category": "Pantry", "tier": "Must", "visitNote": "Grab during a supermarket run, not a special trip.", "sourceNote": "Official Continente product page.", "mapQuery": "supermarket near Rua São Bento 159 Lisboa Portugal piri-piri", "imageAlt": "Piri-piri sauce reference image", "verified": "Audited July 2026"}, {"rank": 4, "city": "Lisbon", "title": "Claus Porto / Ach Brito soaps", "short": "Beautiful Portuguese soap that looks like you tried.", "photo": "https://clausporto.com/media/catalog/product/2/0/20221028_clausestudio5322_hr_1_bxcms16.jpg?fit=bounds&height=1500&optimize=medium&width=1000", "tags": ["Gift", "Packable", "Design"], "price": "€5–€30", "priority": "High", "where": "Claus Porto, A Vida Portuguesa, pharmacies", "why": "Gifts that are handsome, usable, and small. Exactly the lane. No one has to pretend to like a souvenir. They just use it.", "lore": "Claus Porto dates back to 1887 in Porto, Portugal. The brand’s whole thing is old Portuguese fragrance, soap craft, and packaging that looks like it came from a better-designed century.", "buyRule": "Buy wrapped bars, not big sets unless the price is clearly better than U.S. retail.", "skipIf": "Skip heavy boxes. The wrapper is the romance; the suitcase weight is the hangover.", "packing": "Easy. Put in shoes or side pockets.", "source": "https://clausporto.com/en/since-1887", "photoFallback": "https://source.unsplash.com/1200x900/?luxury,soap,packaging", "category": "Gift", "tier": "Must", "visitNote": "Easy gift stop. Good when you need something clean.", "sourceNote": "Official Claus Porto history page.", "mapQuery": "Claus Porto Lisbon Portugal", "imageAlt": "Claus Porto / Ach Brito soaps reference image", "verified": "Audited July 2026"}, {"rank": 5, "city": "Lisbon", "title": "Portuguese Flannel shirt", "short": "One real clothing buy, if the fit hits.", "photo": "https://www.portugueseflannel.com/cdn/shop/files/Labura_Linen_Navy_06_7256144d-c31e-4140-ad00-4ffb88d331b2_800x.jpg?v=1773223076", "tags": ["Apparel", "Personal", "Try on"], "price": "€80–€160", "priority": "Medium-high", "where": "Portuguese Flannel, Rua da Boavista 43", "why": "Portugal-made, wearable, and not a souvenir costume. This is a buy only if you can see yourself wearing it back in LA without narrating your vacation.", "lore": "Portuguese Flannel leans into Portugal’s textile tradition and a quiet menswear thing: good cloth, old mills, no need to scream.", "buyRule": "Try it on. Buy one, not three. One great shirt beats a small pile of almosts.", "skipIf": "Skip if the sleeves are weird, the collar annoys you, or you’re buying it because you feel like you should.", "packing": "Wear it on travel day if luggage gets tight.", "source": "https://www.portugueseflannel.com/pages/porto-store", "photoFallback": "https://source.unsplash.com/1200x900/?flannel,shirt,menswear", "category": "Apparel", "tier": "Nearby", "visitNote": "Try on only. Do not buy blind.", "sourceNote": "Official store page.", "mapQuery": "Portuguese Flannel Rua da Boavista 43 Lisboa Portugal", "imageAlt": "Portuguese Flannel shirt reference image", "verified": "Audited July 2026"}, {"rank": 6, "city": "Lisbon", "title": "Flor de sal", "short": "Portuguese sea salt. Boring until dinner gets better.", "photo": "https://www.salmarim.com/uploads/destaque_produto/foto-banner_02_flor-de-sal-em-elements.jpg", "tags": ["Pantry", "Light", "Gift"], "price": "€2–€26", "priority": "Medium-high", "where": "Supermarkets, A Vida Portuguesa, Salmarim stockists", "why": "Cheap, light, useful, and not easily ruined. A tiny gift for someone who cooks, or for future-you who wants better eggs.", "lore": "Sea salt is one of those humble coastal goods that makes sense in Portugal: Atlantic food, simple cooking, clean finishing salt. If you see Salmarim, that is a strong pick: hand-harvested in the Castro Marim Nature Reserve with packaging that has design-award energy without becoming useless.", "buyRule": "Buy one nice tin or pouch. Don’t buy a kilo like a maniac.", "skipIf": "Skip if the packaging is ugly and you already have three finishing salts at home.", "packing": "Easy. Declare food.", "source": "https://www.salmarim.com/en/fleur-de-sel", "photoFallback": "https://source.unsplash.com/1200x900/?sea,salt,flakes", "category": "Pantry", "tier": "Nearby", "visitNote": "Tiny pantry add-on. Good with tins/tea.", "sourceNote": "Official Salmarim product page.", "mapQuery": "A Vida Portuguesa Chiado Lisboa Portugal", "imageAlt": "Flor de sal reference image", "verified": "Audited July 2026"}, {"rank": 7, "city": "Lisbon", "title": "A Vida Portuguesa small goods", "short": "Curated Portuguese pantry, soap, textiles, stationery.", "photo": "https://convida.pt/wp-content/uploads/2025/09/VidaPortuguesa-Convida-2025-010.webp", "tags": ["Gift", "Design", "Curated"], "price": "€3–€50", "priority": "Medium-high", "where": "A Vida Portuguesa Chiado, Rua Nova do Almada 72", "why": "Tourist-adjacent, yes. But curated well enough that it can still be good if you keep your head on straight.", "lore": "A Vida Portuguesa built its reputation by reviving and presenting traditional Portuguese everyday brands and objects: soaps, ceramics, notebooks, textiles, pantry goods, the whole handsome little domestic opera.", "buyRule": "Use it as a one-stop gift shop. Buy small, flat, useful things.", "skipIf": "Skip anything that feels like a prop in someone else’s Airbnb.", "packing": "Depends on item. Avoid fragile unless tiny.", "source": "https://www.avidaportuguesa.com/en/stores", "photoFallback": "https://source.unsplash.com/1200x900/?portugal,shop,ceramics", "category": "Gift", "tier": "Nearby", "visitNote": "One-stop Lisbon gift shop. Stay disciplined.", "sourceNote": "Official stores page.", "mapQuery": "A Vida Portuguesa Chiado Rua Nova do Almada 72 Lisboa Portugal", "imageAlt": "A Vida Portuguesa small goods reference image", "verified": "Audited July 2026"}, {"rank": 8, "city": "Lisbon", "title": "Small Portuguese ceramic", "short": "One small dish, sardine, or tile-adjacent piece.", "photo": "https://www.avidaportuguesa.com/assets/uploads/store/products/loica/sardinha-bordallo.jpg", "tags": ["Home", "Fragile", "Gift"], "price": "€10–€60", "priority": "Medium", "where": "A Vida Portuguesa, ceramics shops around Chiado/Príncipe Real", "why": "This can be great if it’s small enough to survive your life. A little dish gets used. A giant cabbage bowl becomes a hostage negotiation.", "lore": "Portugal’s ceramic tradition is real, from utility ware to decorative tile work. The trick is buying something with life after vacation.", "buyRule": "Palm-sized only. One piece. Hand-carry if you care about it.", "skipIf": "Skip anything large, heavy, or fragile enough to make you anxious.", "packing": "Wrap in clothing and hand-carry if possible.", "source": "https://www.avidaportuguesa.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?portuguese,ceramics", "category": "Home", "tier": "Nearby", "visitNote": "Only palm-sized. Hand-carry if fragile.", "sourceNote": "A Vida Portuguesa landing page; exact ceramic inventory may vary.", "mapQuery": "A Vida Portuguesa Chiado Rua Nova do Almada 72 Lisboa Portugal ceramics", "imageAlt": "Small Portuguese ceramic reference image", "verified": "Audited July 2026"}, {"rank": 9, "city": "Amsterdam", "title": "Patta Amsterdam piece", "short": "Only if Amsterdam/store-specific or genuinely perfect.", "photo": "https://jp.patta.nl/cdn/shop/files/patta-amsterdam-chapter-t-shirt-blackpatta-amsterdam-chapter-t-shirt-blackapparelpattapatta-6129056.jpg?v=1757687571&width=800", "tags": ["Streetwear", "Amsterdam", "Personal"], "price": "€25–€208+", "priority": "Medium-high", "where": "Patta Amsterdam, Zeedijk 68–70", "why": "This is the Amsterdam streetwear stop that actually has local weight. The real target is the in-store-only Amsterdam Chapter stuff, not generic seasonal product you can order from your couch.", "lore": "Patta opened in Amsterdam in 2004 and grew out of sneaker hunting, music, youth culture, and the Dutch-Surinamese orbit. The word itself is Surinamese slang for shoe.", "buyRule": "Look for in-store exclusives: Amsterdam Chapter mug, tee, cap, or a piece that clearly says this trip mattered without looking like a souvenir costume.", "skipIf": "Skip generic seasonal pieces you can buy from LA at 1 a.m. while doomscrolling.", "packing": "Easy. Wear it if needed.", "source": "https://patta.nl/pages/stores/patta-amsterdam", "photoFallback": "https://source.unsplash.com/1200x900/?streetwear,amsterdam", "category": "Apparel", "tier": "Must", "visitNote": "Hit right after hotel drop if you have energy.", "sourceNote": "Official Patta Amsterdam store page.", "mapQuery": "Patta Amsterdam Zeedijk 68 Amsterdam Netherlands", "imageAlt": "Patta Amsterdam piece reference image", "verified": "Audited July 2026"}, {"rank": 10, "city": "Amsterdam", "title": "Dutch hagelslag", "short": "Chocolate sprinkles for bread. Weird, cheap, charming.", "photo": "https://petersgourmetmarket.com/cdn/shop/files/u8gk3jc2qrxzrx94nui7.jpg?v=1779210685&width=800", "tags": ["Snack", "Gift", "Cheap"], "price": "€2–€5", "priority": "Medium", "where": "Albert Heijn, HEMA", "why": "It’s local, light, inexpensive, and oddly delightful. The right kind of dumb.", "lore": "Hagelslag is a Dutch breakfast/snack staple: buttered bread with sprinkles. Sounds like a child invented it. Somehow, the child was right.", "buyRule": "Buy one classic chocolate and one odd flavor if you see it.", "skipIf": "Skip if the box is crushed or you know nobody in your life will understand joy.", "packing": "Carry-on or checked. Declare food.", "source": "https://www.ah.nl/", "photoFallback": "https://source.unsplash.com/1200x900/?chocolate,sprinkles,bread", "category": "Snack", "tier": "Nearby", "visitNote": "Albert Heijn snack run. No pilgrimage required.", "sourceNote": "Albert Heijn homepage; use in-store search.", "mapQuery": "Albert Heijn near Hyatt Regency Amsterdam Sarphatistraat 104 Amsterdam Netherlands", "imageAlt": "Dutch hagelslag reference image", "verified": "Audited July 2026"}, {"rank": 11, "city": "Amsterdam", "title": "Dutch salty licorice", "short": "For brave friends and enemies you respect.", "photo": "https://petersgourmetmarket.com/cdn/shop/files/febnxekwwqkfgmpghc0m.jpg?v=1757956010&width=800", "tags": ["Snack", "Divisive", "Cheap"], "price": "€2–€6", "priority": "Medium", "where": "Albert Heijn, HEMA, candy shops", "why": "A tiny edible personality test. Great gift if you like watching people process betrayal.", "lore": "The Dutch love drop, including salty and double-salty versions. It is less candy, more cultural hazing.", "buyRule": "Buy one small bag. You are not opening a licorice import business.", "skipIf": "Skip if you only want universally loved gifts. This is not that.", "packing": "Easy. Declare food.", "source": "https://www.ah.nl/", "photoFallback": "https://source.unsplash.com/1200x900/?black,licorice,candy", "category": "Snack", "tier": "Nearby", "visitNote": "Buy small. Weaponized candy.", "sourceNote": "Albert Heijn homepage; use in-store search.", "mapQuery": "Albert Heijn near Hyatt Regency Amsterdam Sarphatistraat 104 Amsterdam Netherlands", "imageAlt": "Dutch salty licorice reference image", "verified": "Audited July 2026"}, {"rank": 12, "city": "London", "title": "Liberty small home/design gift", "short": "Textiles, stationery, beauty, small design objects.", "photo": "https://i8.amplience.net/i/liberty/000742336-R428020006-1?%24hi-res%24=", "tags": ["Gift", "Design", "London"], "price": "£5–£60", "priority": "Medium", "where": "Liberty London", "why": "Better for you than Selfridges. More specific, more giftable, less giant luxury mall energy.", "lore": "Liberty is tied to London retail history and textile/pattern culture. The building and product world feel specific in a way most department stores don’t anymore.", "buyRule": "Buy a small Liberty print object, handkerchief, notebook, or grooming item. Keep it tight.", "skipIf": "Skip if it’s just expensive cute. Cute is not a reason. Cute is a trap.", "packing": "Easy.", "source": "https://www.libertylondon.com/", "photoFallback": "https://source.unsplash.com/1200x900/?london,department,store,fabric", "category": "Gift", "tier": "Nearby", "visitNote": "Better London gift stop than Selfridges.", "sourceNote": "Official Liberty site.", "mapQuery": "Liberty London Great Marlborough Street London United Kingdom", "imageAlt": "Liberty small home/design gift reference image", "verified": "Audited July 2026"}, {"rank": 13, "city": "London", "title": "Choosing Keeping stationery", "short": "One beautiful paper object, not a school-supply binge.", "photo": "https://choosingkeeping.com/cdn/shop/files/YtkBXxJSHly9ANGLEk-LBHyUYRR4RShi2zMk50mWI-A.png?crop=center&height=1862&v=1755862413&width=2997", "tags": ["Gift", "Flat", "Small"], "price": "£3–£30", "priority": "Medium", "where": "Choosing Keeping, Covent Garden", "why": "Flat, thoughtful, easy to pack, and good for someone who appreciates objects with taste.", "lore": "Choosing Keeping is a London stationery shop with a careful, old-world eye: pencils, paper, notebooks, drawing tools, desk things that feel like they have souls.", "buyRule": "Buy one notebook, card set, pencil bundle, or desk object.", "skipIf": "Skip if you’re just buying stationery because it’s pretty. Pretty piles become clutter.", "packing": "Perfect carry-on item.", "source": "https://choosingkeeping.com/", "photoFallback": "https://source.unsplash.com/1200x900/?stationery,notebook,pencils", "category": "Stationery", "tier": "Nearby", "visitNote": "Flat, small, easy. Good London add-on.", "sourceNote": "Official shop site.", "mapQuery": "Choosing Keeping 21 Tower Street London United Kingdom", "imageAlt": "Choosing Keeping stationery reference image", "verified": "Audited July 2026"}, {"rank": 14, "city": "London", "title": "DSM London small accessory/object", "short": "A CDG/DSM weird thing if it earns the swipe.", "photo": "https://london.doverstreetmarket.com/cdn/shop/files/IGfeed_nikecdghp_announce_01_30bbaccc-fdf0-425e-804e-ffb3491bf5a2.jpg?v=1782385588&width=2232", "tags": ["Fashion", "Browse", "Ruthless"], "price": "£20–£250+", "priority": "Medium-low", "where": "Dover Street Market London", "why": "Worth seeing, not automatically worth buying. You have DSM LA. London has to prove itself.", "lore": "Dover Street Market was conceived by Rei Kawakubo and Adrian Joffe as a collision point for creators, fashion, and installations rather than a normal shop.", "buyRule": "Cap the visit at 45 minutes. Buy only London/DSM-specific, CDG oddities, books, fragrance, or a killer accessory.", "skipIf": "Skip any piece you can get at DSM LA or online without emotional damage.", "packing": "Easy unless you buy shoes or a jacket, which you probably should not.", "source": "https://london.doverstreetmarket.com/pages/dsm-locations", "photoFallback": "https://source.unsplash.com/1200x900/?fashion,boutique,london", "category": "Apparel", "tier": "Maybe", "visitNote": "45-minute cap. You have DSM LA.", "sourceNote": "Official DSM London location page.", "mapQuery": "Dover Street Market London 18-22 Haymarket London United Kingdom", "imageAlt": "DSM London small accessory/object reference image", "verified": "Audited July 2026"}, {"rank": 15, "city": "Belgium / Tomorrowland", "title": "Tomorrowland tee/cap/bandana", "short": "The only Belgium buy left on the board.", "photo": "https://store.tomorrowland.com/cdn/shop/files/32.0624.0817.139.3013_Detail.jpg?crop=center&height=5760&v=1720109772&width=5332", "tags": ["Memory buy", "Festival", "Small"], "price": "€20–€90", "priority": "Low but allowed", "where": "Official Tomorrowland / DreamVille stores in Boom", "why": "Belgium is no longer a shopping stop. This is a memory buy, not a value buy.", "lore": "Festival merch works when it is tied to the actual event and survives outside the festival. A cap or bandana can live. A giant flag usually goes to die in a closet.", "buyRule": "Buy early if you care about sizes. The official store lists Belgium festival-area and DreamVille stores during Tomorrowland, so this is the one Belgium exception that makes sense.", "skipIf": "Skip anything oversized, fragile, or wearable only inside the Tomorrowland bubble.", "packing": "Easy. Wash before wearing at home unless you want the scent of three days of beautiful chaos.", "source": "https://store.tomorrowland.com/en-us/pages/official-stores", "photoFallback": "https://source.unsplash.com/1200x900/?music,festival,crowd", "category": "Memory", "tier": "Nearby", "visitNote": "Only Belgium buy. Festival memory, not a haul.", "sourceNote": "Official Tomorrowland store locations page.", "mapQuery": "Tomorrowland DreamVille Boom Belgium", "imageAlt": "Tomorrowland tee/cap/bandana reference image", "verified": "Audited July 2026"}];
+<script>
+const DATA = {"trip": {"title": "eurotrip", "dates": "July 13–25, 2026", "travelers": ["Chris", "Angeline", "Jen"], "route": ["London", "Belgium / Tomorrowland", "Amsterdam", "Lisbon"], "privacy": "Includes lodging addresses and flight details because you asked to include all trip details. If this is on GitHub Pages, consider keeping the repo private.", "helpfulLinks": [{"title": "TAP flight status", "url": "https://www.flytap.com/en-us/flight-status", "notes": "Best direct status page for TP247 and TP237."}, {"title": "United flight status", "url": "https://www.united.com/en/us/flightstatus", "notes": "Best direct status page for UA923."}, {"title": "Tomorrowland practical info", "url": "https://belgium.tomorrowland.com/en/practical/how-to-get-there/", "notes": "Use this for festival arrival, DreamVille, and transport details."}, {"title": "Schiphol airport", "url": "https://www.schiphol.nl/en/", "notes": "Useful for Amsterdam departure day."}, {"title": "Lisbon Airport", "url": "https://www.aeroportolisboa.pt/en/lis/home", "notes": "Useful for July 25 departure day."}]}, "timeline": [{"date": "2026-07-13", "day": "Mon", "city": "Transit", "type": "Flight", "time": "3:35 PM", "title": "Depart LAX for London", "subtitle": "UA923 · Angeline / Chris / Jen", "details": "Overnight flight. Arrival is the next morning in London.", "mapQuery": "Los Angeles International Airport LAX", "source": "", "status": "Booked"}, {"date": "2026-07-14", "day": "Tue", "city": "London", "type": "Arrival", "time": "10:00 AM", "title": "Arrive in London", "subtitle": "UA923 arrival", "details": "Get settled, transit to Grays Inn Road lodging.", "mapQuery": "295 Grays Inn Road Flat 2 London WC1X 8QL United Kingdom", "source": "", "status": "Booked"}, {"date": "2026-07-15", "day": "Wed", "city": "London", "type": "Museum", "time": "12:00 PM", "title": "Design Museum: NIGO", "subtitle": "NIGO: From Japan with Love", "details": "The Design Museum describes this as the first museum retrospective outside Japan for NIGO, featuring 700+ objects and his archive/world.", "mapQuery": "Design Museum London 224 Kensington High Street London", "source": "https://designmuseum.org/exhibitions/nigo-from-japan-with-love", "status": "Planned"}, {"date": "2026-07-15", "day": "Wed", "city": "London", "type": "Dinner", "time": "5:30 PM", "title": "Tamil Prince", "subtitle": "Resy confirmed", "details": "Dinner reservation. Address should be checked before leaving, but map is set to the restaurant.", "mapQuery": "The Tamil Prince 115 Hemingford Road London N1 1BZ United Kingdom", "source": "https://www.thetamilprince.com/", "status": "Booked"}, {"date": "2026-07-16", "day": "Thu", "city": "Transit", "type": "Train", "time": "7:04 AM–10:05 AM", "title": "London → Brussels", "subtitle": "Train to Brussels", "details": "Spreadsheet route says Train to Brussels. Departure city was inferred as London from the itinerary title.", "mapQuery": "Brussels Midi Station", "source": "", "status": "Booked"}, {"date": "2026-07-16", "day": "Thu", "city": "Belgium", "type": "Stay", "time": "After arrival", "title": "Check in: B&B Hof Van Volmersele", "subtitle": "Steenokkerzeel lodging", "details": "Airport-area lodging before Tomorrowland.", "mapQuery": "B&B Hof Van Volmersele Sint-Servaesstraat 97 1910 Steenokkerzeel Belgium", "source": "", "status": "Booked"}, {"date": "2026-07-17", "day": "Fri", "city": "Tomorrowland", "type": "Festival", "time": "All day", "title": "Tomorrowland Weekend 1", "subtitle": "De Schorre · Boom", "details": "Official Tomorrowland Belgium page lists Weekend 1 as July 17–19, 2026 at De Schorre in Boom.", "mapQuery": "Recreation Area De Schorre Boom Belgium", "source": "https://belgium.tomorrowland.com/", "status": "Booked"}, {"date": "2026-07-17", "day": "Fri", "city": "Tomorrowland", "type": "Set", "time": "12:30 PM", "title": "Avicii Tribute", "subtitle": "Time from spreadsheet placement", "details": "Keep this as a reminder; confirm the final set time in the Tomorrowland app/schedule.", "mapQuery": "Recreation Area De Schorre Boom Belgium", "source": "https://belgium.tomorrowland.com/en/practical/how-to-get-there/", "status": "Needs verification"}, {"date": "2026-07-18", "day": "Sat", "city": "Tomorrowland", "type": "Festival", "time": "All day", "title": "Tomorrowland", "subtitle": "Day 2", "details": "Festival day. No shopping mission. Save energy.", "mapQuery": "Recreation Area De Schorre Boom Belgium", "source": "https://belgium.tomorrowland.com/en/practical/how-to-get-there/", "status": "Booked"}, {"date": "2026-07-19", "day": "Sun", "city": "Tomorrowland", "type": "Festival", "time": "All day", "title": "Tomorrowland", "subtitle": "Day 3", "details": "Final festival day.", "mapQuery": "Recreation Area De Schorre Boom Belgium", "source": "https://belgium.tomorrowland.com/en/practical/how-to-get-there/", "status": "Booked"}, {"date": "2026-07-19", "day": "Sun", "city": "Belgium", "type": "Food", "time": "5:30 PM", "title": "Dining Experience", "subtitle": "Details needed", "details": "Spreadsheet lists a dining experience but not the restaurant/vendor. Add exact name/link when you have it.", "mapQuery": "Recreation Area De Schorre Boom Belgium", "source": "", "status": "Needs details"}, {"date": "2026-07-20", "day": "Mon", "city": "Transit", "type": "Train", "time": "8:53 AM–10:50 AM", "title": "Brussels → Amsterdam", "subtitle": "Train to Amsterdam", "details": "Train transfer day. Keep this one clean and early.", "mapQuery": "Amsterdam Centraal Station", "source": "", "status": "Booked"}, {"date": "2026-07-20", "day": "Mon", "city": "Amsterdam", "type": "Stay", "time": "After arrival", "title": "Check in: Hyatt Regency Amsterdam", "subtitle": "Sarphatistraat 104", "details": "Official Hyatt page confirms the address at Sarphatistraat 104, 1018 GV Amsterdam.", "mapQuery": "Hyatt Regency Amsterdam Sarphatistraat 104 Amsterdam Netherlands", "source": "https://www.hyatt.com/hyatt-regency/en-US/amsra-hyatt-regency-amsterdam", "status": "Booked"}, {"date": "2026-07-21", "day": "Tue", "city": "Amsterdam", "type": "Activity", "time": "TBD", "title": "Canal ride", "subtitle": "Activity idea", "details": "No company/time in the spreadsheet yet. Add vendor or booking link when picked.", "mapQuery": "Amsterdam canal cruise near Hyatt Regency Amsterdam", "source": "", "status": "Idea"}, {"date": "2026-07-22", "day": "Wed", "city": "Lisbon", "type": "Stay", "time": "After arrival", "title": "Check in: Rua São Bento 159", "subtitle": "Lisbon lodging", "details": "São Bento base. Good zone for tea, Portuguese Flannel, A Vida Portuguesa, conservas.", "mapQuery": "Rua São Bento 159 1200 Lisbon Portugal", "source": "", "status": "Booked"}, {"date": "2026-07-22", "day": "Wed", "city": "Transit", "type": "Flight", "time": "1:00 PM–3:00 PM", "title": "Amsterdam → Lisbon", "subtitle": "HV5957 · Angeline / Chris / Jen", "details": "Flight to Lisbon. Get liquids/souvenirs after arrival, not before airport security.", "mapQuery": "Amsterdam Schiphol Airport", "source": "", "status": "Booked"}, {"date": "2026-07-23", "day": "Thu", "city": "Lisbon", "type": "Class", "time": "5:30 PM", "title": "Cooking class", "subtitle": "Vendor/details needed", "details": "Spreadsheet has time and activity, but not the vendor/address. Add booking link when available.", "mapQuery": "Lisbon cooking class near Rua São Bento 159 Lisbon Portugal", "source": "", "status": "Needs details"}, {"date": "2026-07-24", "day": "Fri", "city": "Lisbon", "type": "Activity", "time": "TBD", "title": "Ceramics", "subtitle": "Activity idea", "details": "No shop/studio named yet. Keep it as an idea until booked.", "mapQuery": "ceramics workshop Lisbon Portugal", "source": "", "status": "Idea"}, {"date": "2026-07-25", "day": "Sat", "city": "Transit", "type": "Flight", "time": "10:15 AM–2:40 PM", "title": "TP247 · Lisbon → Los Angeles", "subtitle": "Chris / Jen · LIS → LAX · nonstop · 12h 30m", "details": "TAP Air Portugal flight TP247, operated by TAP Air Portugal. Airline reference: BXKEQX. Agency reference: N5SEJU. Trip ID: 1013229400. Seat assignment for Chris not assigned in screenshot. Fare shown as refundable; screenshot says changes can be made up to 48 hours before departure.", "mapQuery": "Humberto Delgado Airport Lisbon", "source": "https://www.flytap.com/en-us/flight-status", "flightNumber": "TP247", "status": "Booked"}, {"date": "2026-07-25", "day": "Sat", "city": "Transit", "type": "Flight", "time": "1:00 PM", "title": "TP237 · Lisbon → San Francisco", "subtitle": "Angeline · LIS → SFO", "details": "Angeline return flight from spreadsheet. Add arrival time/confirmation if you want the same level of detail as TP247.", "mapQuery": "Humberto Delgado Airport Lisbon", "source": "https://www.flytap.com/en-us/flight-status", "flightNumber": "TP237", "status": "Booked"}], "places": [{"city": "London", "type": "Stay", "title": "London lodging", "address": "295 Grays Inn Road Flat 2, London, England WC1X 8QL, United Kingdom", "notes": "Base for July 14–16.", "mapQuery": "295 Grays Inn Road Flat 2 London WC1X 8QL United Kingdom", "source": "", "status": "Booked"}, {"city": "London", "type": "Museum", "title": "Design Museum", "address": "224 Kensington High Street, London W8 6AG", "notes": "NIGO: From Japan with Love.", "mapQuery": "Design Museum London 224 Kensington High Street London", "source": "https://designmuseum.org/exhibitions/nigo-from-japan-with-love", "status": "Planned"}, {"city": "London", "type": "Food", "title": "The Tamil Prince", "address": "115 Hemingford Road, London N1 1BZ", "notes": "Resy confirmed 5:30 PM on July 15.", "mapQuery": "The Tamil Prince 115 Hemingford Road London N1 1BZ United Kingdom", "source": "https://www.thetamilprince.com/", "status": "Booked"}, {"city": "Belgium", "type": "Stay", "title": "B&B Hof Van Volmersele", "address": "Sint-Servaesstraat 97, 1910 Steenokkerzeel, Belgium", "notes": "Airport-zone lodging for Tomorrowland stretch.", "mapQuery": "B&B Hof Van Volmersele Sint-Servaesstraat 97 1910 Steenokkerzeel Belgium", "source": "", "status": "Booked"}, {"city": "Tomorrowland", "type": "Festival", "title": "Tomorrowland / De Schorre", "address": "Recreation Area De Schorre, Boom, Belgium", "notes": "Festival location. DreamVille bike parking noted near Nachtegaalstraat, 2850 Boom on official practical page.", "mapQuery": "Recreation Area De Schorre Boom Belgium", "source": "https://belgium.tomorrowland.com/en/practical/how-to-get-there/", "status": "Booked"}, {"city": "Amsterdam", "type": "Stay", "title": "Hyatt Regency Amsterdam", "address": "Sarphatistraat 104, 1018 GV Amsterdam, Netherlands", "notes": "Hotel base for Amsterdam.", "mapQuery": "Hyatt Regency Amsterdam Sarphatistraat 104 Amsterdam Netherlands", "source": "https://www.hyatt.com/hyatt-regency/en-US/amsra-hyatt-regency-amsterdam", "status": "Booked"}, {"city": "Amsterdam", "type": "Activity", "title": "Canal ride", "address": "TBD", "notes": "Activity idea from spreadsheet. Need company/time.", "mapQuery": "Amsterdam canal cruise near Hyatt Regency Amsterdam", "source": "", "status": "Idea"}, {"city": "Lisbon", "type": "Stay", "title": "Lisbon lodging", "address": "Rua São Bento 159, 1200, Lisbon, Portugal", "notes": "Base for Lisbon. Close enough to build a good shopping/pantry loop.", "mapQuery": "Rua São Bento 159 1200 Lisbon Portugal", "source": "", "status": "Booked"}, {"city": "Lisbon", "type": "Class", "title": "Cooking class", "address": "TBD", "notes": "5:30 PM on July 23 from spreadsheet. Need vendor/address.", "mapQuery": "Lisbon cooking class near Rua São Bento 159 Lisbon Portugal", "source": "", "status": "Needs details"}, {"city": "Lisbon", "type": "Activity", "title": "Ceramics", "address": "TBD", "notes": "Activity idea from spreadsheet. Need shop/studio.", "mapQuery": "ceramics workshop Lisbon Portugal", "source": "", "status": "Idea"}], "transit": [{"date": "2026-07-13", "type": "Flight", "title": "UA923", "route": "LAX → London", "time": "Jul 13 3:35 PM → Jul 14 10:00 AM", "travelers": "Angeline / Chris / Jen", "notes": "Arrival city listed as London; itinerary note says Heathrow.", "mapQuery": "Los Angeles International Airport LAX"}, {"date": "2026-07-16", "type": "Train", "title": "Train to Brussels", "route": "London → Brussels", "time": "7:04 AM–10:05 AM", "travelers": "Angeline / Chris / Jen", "notes": "Departure city inferred from sheet route; train number not listed.", "mapQuery": "Brussels Midi Station"}, {"date": "2026-07-20", "type": "Train", "title": "Train to Amsterdam", "route": "Brussels → Amsterdam", "time": "8:53 AM–10:50 AM", "travelers": "Angeline / Chris / Jen", "notes": "Train number not listed in sheet.", "mapQuery": "Amsterdam Centraal Station"}, {"date": "2026-07-22", "type": "Flight", "title": "HV5957", "route": "Amsterdam → Lisbon", "time": "1:00 PM–3:00 PM", "travelers": "Angeline / Chris / Jen", "notes": "Flight to Lisbon.", "mapQuery": "Amsterdam Schiphol Airport"}, {"date": "2026-07-25", "type": "Flight", "title": "TP247", "route": "Lisbon (LIS) → Los Angeles (LAX)", "time": "10:15 AM → 2:40 PM · nonstop · 12h 30m", "travelers": "Chris / Jen", "notes": "TAP Air Portugal. Airline ref BXKEQX. Agency ref N5SEJU. Trip ID 1013229400. Seat assignment for Chris not assigned in screenshot. Flight number appears as plain text so iOS may detect it; use TAP status link if not.", "mapQuery": "Humberto Delgado Airport Lisbon", "source": "https://www.flytap.com/en-us/flight-status", "flightNumber": "TP247"}, {"date": "2026-07-25", "type": "Flight", "title": "TP237", "route": "Lisbon (LIS) → San Francisco (SFO)", "time": "1:00 PM departure", "travelers": "Angeline", "notes": "Spreadsheet return flight. Add arrival/confirmation if needed. Flight number appears as plain text so iOS may detect it; use TAP status link if not.", "mapQuery": "Humberto Delgado Airport Lisbon", "source": "https://www.flytap.com/en-us/flight-status", "flightNumber": "TP237"}], "souvenirs": [{"rank": 1, "city": "Lisbon", "title": "Portuguese tinned fish", "short": "Conservas from Lisbon, preferably Conserveira de Lisboa.", "photo": "https://www.myglobalviewpoint.com/wp-content/uploads/2024/07/Conserveira-de-Lisboa.webp", "tags": ["Pantry", "Gift", "Best overall"], "price": "€3–€10 per tin", "priority": "Main haul", "where": "Conserveira de Lisboa, Rua dos Bacalhoeiros 34/34A", "why": "Best souvenir-to-usefulness ratio on the whole trip. It looks good, travels well, feeds you later, and does not scream airport gift shop.", "lore": "Portugal has a deep conservas culture tied to the Atlantic and old-school preservation. Conserveira de Lisboa opened in 1930 and later became almost exclusively specialized in canned fish conserves, with Portuguese staples like cod, sardines, tuna, salmon, octopus, mackerel, eel, and trout.", "buyRule": "Buy on July 24. Get a spread: sardines, mackerel, tuna, spicy options, and one gorgeous label for gifting.", "skipIf": "Skip novelty birthday-year sardine tins unless the packaging is genuinely good. Cute can become dumb fast.", "packing": "Checked bag preferred. Declare food when entering the U.S.", "source": "https://lojascomhistoria.pt/shops/conserveira-de-lisboa", "photoFallback": "https://source.unsplash.com/1200x900/?portuguese,canned,sardines", "category": "Pantry", "tier": "Must", "visitNote": "Lisbon final buy day. Pack it once.", "sourceNote": "Verified historic shop listing used because the official homepage can be flaky.", "mapQuery": "Conserveira de Lisboa Rua dos Bacalhoeiros 34 Lisboa Portugal", "imageAlt": "Portuguese tinned fish reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 2, "city": "Lisbon", "title": "Companhia Portugueza do Chá tea", "short": "Tea from the São Bento / Poço dos Negros zone.", "photo": "https://www.avidaportuguesa.com/assets/uploads/store/products/alimentacao/cha_lisbonb_1_cpc.jpg", "tags": ["Gift", "Light", "Near stay"], "price": "€6–€20", "priority": "High", "where": "Companhia Portugueza do Chá, Rua do Poço dos Negros 105", "why": "Light, elegant, and easy to gift. Better than dragging back another fragile thing you’ll resent by airport security.", "lore": "This Lisbon tea shop is known for artisanal blends and a proper old-world retail atmosphere. The packaging has that quiet Portuguese charm: not loud, not desperate, just handsome.", "buyRule": "Buy Lisbon Breakfast or a house blend. Ask what is most Portuguese or shop-specific.", "skipIf": "Skip generic English Breakfast if it feels like something you could buy at home with better marketing.", "packing": "Carry-on or checked. Declare food.", "source": "https://companhiaportuguezadocha.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?tea,shop,lisbon", "category": "Pantry", "tier": "Must", "visitNote": "Near São Bento. Easy early Lisbon hit.", "sourceNote": "Official tea shop site.", "mapQuery": "Companhia Portugueza do Chá Rua do Poço dos Negros 105 Lisboa Portugal", "imageAlt": "Companhia Portugueza do Chá tea reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 3, "city": "Lisbon", "title": "Piri-piri sauce", "short": "Cheap, useful heat. The Continente 200 ml bottle is the ugly-beautiful workhorse.", "photo": "https://www.continente.pt/dw/image/v2/BDVS_PRD/on/demandware.static/-/Sites-col-master-catalog/default/dw388db8ee/images/col/551/5510134-hero.jpg?sh=2000&sw=2000", "tags": ["Pantry", "Cheap", "Checked bag"], "price": "€0.55–€6", "priority": "High", "where": "Continente, Pingo Doce, A Vida Portuguesa", "why": "This is the kind of tiny pantry item that makes dinner better six months later. That is the whole point.", "lore": "Piri-piri lives in the Portuguese orbit through centuries of travel, trade, and colonial history. In modern use, it’s grilled chicken, seafood, eggs, sandwiches, and little sparks of danger where bland food goes to die.", "buyRule": "Buy two: one supermarket workhorse, one nicer bottle if packaging earns it.", "skipIf": "Skip if it’s a big bottle. Sauce isn’t a personality, and luggage leaks are biblical.", "packing": "Checked bag only if over 100 ml. Tape the cap, double-bag it.", "source": "https://www.continente.pt/produto/molho-piri-piri-continente-continente-5510134.html", "photoFallback": "https://source.unsplash.com/1200x900/?piri,piri,sauce", "category": "Pantry", "tier": "Must", "visitNote": "Grab during a supermarket run, not a special trip.", "sourceNote": "Official Continente product page.", "mapQuery": "supermarket near Rua São Bento 159 Lisboa Portugal piri-piri", "imageAlt": "Piri-piri sauce reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 4, "city": "Lisbon", "title": "Claus Porto / Ach Brito soaps", "short": "Beautiful Portuguese soap that looks like you tried.", "photo": "https://clausporto.com/media/catalog/product/2/0/20221028_clausestudio5322_hr_1_bxcms16.jpg?fit=bounds&height=1500&optimize=medium&width=1000", "tags": ["Gift", "Packable", "Design"], "price": "€5–€30", "priority": "High", "where": "Claus Porto, A Vida Portuguesa, pharmacies", "why": "Gifts that are handsome, usable, and small. Exactly the lane. No one has to pretend to like a souvenir. They just use it.", "lore": "Claus Porto dates back to 1887 in Porto, Portugal. The brand’s whole thing is old Portuguese fragrance, soap craft, and packaging that looks like it came from a better-designed century.", "buyRule": "Buy wrapped bars, not big sets unless the price is clearly better than U.S. retail.", "skipIf": "Skip heavy boxes. The wrapper is the romance; the suitcase weight is the hangover.", "packing": "Easy. Put in shoes or side pockets.", "source": "https://clausporto.com/en/since-1887", "photoFallback": "https://source.unsplash.com/1200x900/?luxury,soap,packaging", "category": "Gift", "tier": "Must", "visitNote": "Easy gift stop. Good when you need something clean.", "sourceNote": "Official Claus Porto history page.", "mapQuery": "Claus Porto Lisbon Portugal", "imageAlt": "Claus Porto / Ach Brito soaps reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 5, "city": "Lisbon", "title": "Portuguese Flannel shirt", "short": "One real clothing buy, if the fit hits.", "photo": "https://www.portugueseflannel.com/cdn/shop/files/Labura_Linen_Navy_06_7256144d-c31e-4140-ad00-4ffb88d331b2_800x.jpg?v=1773223076", "tags": ["Apparel", "Personal", "Try on"], "price": "€80–€160", "priority": "Medium-high", "where": "Portuguese Flannel, Rua da Boavista 43", "why": "Portugal-made, wearable, and not a souvenir costume. This is a buy only if you can see yourself wearing it back in LA without narrating your vacation.", "lore": "Portuguese Flannel leans into Portugal’s textile tradition and a quiet menswear thing: good cloth, old mills, no need to scream.", "buyRule": "Try it on. Buy one, not three. One great shirt beats a small pile of almosts.", "skipIf": "Skip if the sleeves are weird, the collar annoys you, or you’re buying it because you feel like you should.", "packing": "Wear it on travel day if luggage gets tight.", "source": "https://www.portugueseflannel.com/pages/porto-store", "photoFallback": "https://source.unsplash.com/1200x900/?flannel,shirt,menswear", "category": "Apparel", "tier": "Nearby", "visitNote": "Try on only. Do not buy blind.", "sourceNote": "Official store page.", "mapQuery": "Portuguese Flannel Rua da Boavista 43 Lisboa Portugal", "imageAlt": "Portuguese Flannel shirt reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 6, "city": "Lisbon", "title": "Flor de sal", "short": "Portuguese sea salt. Boring until dinner gets better.", "photo": "https://www.salmarim.com/uploads/destaque_produto/foto-banner_02_flor-de-sal-em-elements.jpg", "tags": ["Pantry", "Light", "Gift"], "price": "€2–€26", "priority": "Medium-high", "where": "Supermarkets, A Vida Portuguesa, Salmarim stockists", "why": "Cheap, light, useful, and not easily ruined. A tiny gift for someone who cooks, or for future-you who wants better eggs.", "lore": "Sea salt is one of those humble coastal goods that makes sense in Portugal: Atlantic food, simple cooking, clean finishing salt. If you see Salmarim, that is a strong pick: hand-harvested in the Castro Marim Nature Reserve with packaging that has design-award energy without becoming useless.", "buyRule": "Buy one nice tin or pouch. Don’t buy a kilo like a maniac.", "skipIf": "Skip if the packaging is ugly and you already have three finishing salts at home.", "packing": "Easy. Declare food.", "source": "https://www.salmarim.com/en/fleur-de-sel", "photoFallback": "https://source.unsplash.com/1200x900/?sea,salt,flakes", "category": "Pantry", "tier": "Nearby", "visitNote": "Tiny pantry add-on. Good with tins/tea.", "sourceNote": "Official Salmarim product page.", "mapQuery": "A Vida Portuguesa Chiado Lisboa Portugal", "imageAlt": "Flor de sal reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 7, "city": "Lisbon", "title": "A Vida Portuguesa small goods", "short": "Curated Portuguese pantry, soap, textiles, stationery.", "photo": "https://convida.pt/wp-content/uploads/2025/09/VidaPortuguesa-Convida-2025-010.webp", "tags": ["Gift", "Design", "Curated"], "price": "€3–€50", "priority": "Medium-high", "where": "A Vida Portuguesa Chiado, Rua Nova do Almada 72", "why": "Tourist-adjacent, yes. But curated well enough that it can still be good if you keep your head on straight.", "lore": "A Vida Portuguesa built its reputation by reviving and presenting traditional Portuguese everyday brands and objects: soaps, ceramics, notebooks, textiles, pantry goods, the whole handsome little domestic opera.", "buyRule": "Use it as a one-stop gift shop. Buy small, flat, useful things.", "skipIf": "Skip anything that feels like a prop in someone else’s Airbnb.", "packing": "Depends on item. Avoid fragile unless tiny.", "source": "https://www.avidaportuguesa.com/en/stores", "photoFallback": "https://source.unsplash.com/1200x900/?portugal,shop,ceramics", "category": "Gift", "tier": "Nearby", "visitNote": "One-stop Lisbon gift shop. Stay disciplined.", "sourceNote": "Official stores page.", "mapQuery": "A Vida Portuguesa Chiado Rua Nova do Almada 72 Lisboa Portugal", "imageAlt": "A Vida Portuguesa small goods reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 8, "city": "Lisbon", "title": "Small Portuguese ceramic", "short": "One small dish, sardine, or tile-adjacent piece.", "photo": "https://www.avidaportuguesa.com/assets/uploads/store/products/loica/sardinha-bordallo.jpg", "tags": ["Home", "Fragile", "Gift"], "price": "€10–€60", "priority": "Medium", "where": "A Vida Portuguesa, ceramics shops around Chiado/Príncipe Real", "why": "This can be great if it’s small enough to survive your life. A little dish gets used. A giant cabbage bowl becomes a hostage negotiation.", "lore": "Portugal’s ceramic tradition is real, from utility ware to decorative tile work. The trick is buying something with life after vacation.", "buyRule": "Palm-sized only. One piece. Hand-carry if you care about it.", "skipIf": "Skip anything large, heavy, or fragile enough to make you anxious.", "packing": "Wrap in clothing and hand-carry if possible.", "source": "https://www.avidaportuguesa.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?portuguese,ceramics", "category": "Home", "tier": "Nearby", "visitNote": "Only palm-sized. Hand-carry if fragile.", "sourceNote": "A Vida Portuguesa landing page; exact ceramic inventory may vary.", "mapQuery": "A Vida Portuguesa Chiado Rua Nova do Almada 72 Lisboa Portugal ceramics", "imageAlt": "Small Portuguese ceramic reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 9, "city": "Amsterdam", "title": "Patta Amsterdam piece", "short": "Only if Amsterdam/store-specific or genuinely perfect.", "photo": "https://jp.patta.nl/cdn/shop/files/patta-amsterdam-chapter-t-shirt-blackpatta-amsterdam-chapter-t-shirt-blackapparelpattapatta-6129056.jpg?v=1757687571&width=800", "tags": ["Streetwear", "Amsterdam", "Personal"], "price": "€25–€208+", "priority": "Medium-high", "where": "Patta Amsterdam, Zeedijk 68–70", "why": "This is the Amsterdam streetwear stop that actually has local weight. The real target is the in-store-only Amsterdam Chapter stuff, not generic seasonal product you can order from your couch.", "lore": "Patta opened in Amsterdam in 2004 and grew out of sneaker hunting, music, youth culture, and the Dutch-Surinamese orbit. The word itself is Surinamese slang for shoe.", "buyRule": "Look for in-store exclusives: Amsterdam Chapter mug, tee, cap, or a piece that clearly says this trip mattered without looking like a souvenir costume.", "skipIf": "Skip generic seasonal pieces you can buy from LA at 1 a.m. while doomscrolling.", "packing": "Easy. Wear it if needed.", "source": "https://patta.nl/pages/stores/patta-amsterdam", "photoFallback": "https://source.unsplash.com/1200x900/?streetwear,amsterdam", "category": "Apparel", "tier": "Must", "visitNote": "Hit right after hotel drop if you have energy.", "sourceNote": "Official Patta Amsterdam store page.", "mapQuery": "Patta Amsterdam Zeedijk 68 Amsterdam Netherlands", "imageAlt": "Patta Amsterdam piece reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 10, "city": "Amsterdam", "title": "Dutch hagelslag", "short": "Chocolate sprinkles for bread. Weird, cheap, charming.", "photo": "https://petersgourmetmarket.com/cdn/shop/files/u8gk3jc2qrxzrx94nui7.jpg?v=1779210685&width=800", "tags": ["Snack", "Gift", "Cheap"], "price": "€2–€5", "priority": "Medium", "where": "Albert Heijn, HEMA", "why": "It’s local, light, inexpensive, and oddly delightful. The right kind of dumb.", "lore": "Hagelslag is a Dutch breakfast/snack staple: buttered bread with sprinkles. Sounds like a child invented it. Somehow, the child was right.", "buyRule": "Buy one classic chocolate and one odd flavor if you see it.", "skipIf": "Skip if the box is crushed or you know nobody in your life will understand joy.", "packing": "Carry-on or checked. Declare food.", "source": "https://www.ah.nl/", "photoFallback": "https://source.unsplash.com/1200x900/?chocolate,sprinkles,bread", "category": "Snack", "tier": "Nearby", "visitNote": "Albert Heijn snack run. No pilgrimage required.", "sourceNote": "Albert Heijn homepage; use in-store search.", "mapQuery": "Albert Heijn near Hyatt Regency Amsterdam Sarphatistraat 104 Amsterdam Netherlands", "imageAlt": "Dutch hagelslag reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 11, "city": "Amsterdam", "title": "Dutch salty licorice", "short": "For brave friends and enemies you respect.", "photo": "https://petersgourmetmarket.com/cdn/shop/files/febnxekwwqkfgmpghc0m.jpg?v=1757956010&width=800", "tags": ["Snack", "Divisive", "Cheap"], "price": "€2–€6", "priority": "Medium", "where": "Albert Heijn, HEMA, candy shops", "why": "A tiny edible personality test. Great gift if you like watching people process betrayal.", "lore": "The Dutch love drop, including salty and double-salty versions. It is less candy, more cultural hazing.", "buyRule": "Buy one small bag. You are not opening a licorice import business.", "skipIf": "Skip if you only want universally loved gifts. This is not that.", "packing": "Easy. Declare food.", "source": "https://www.ah.nl/", "photoFallback": "https://source.unsplash.com/1200x900/?black,licorice,candy", "category": "Snack", "tier": "Nearby", "visitNote": "Buy small. Weaponized candy.", "sourceNote": "Albert Heijn homepage; use in-store search.", "mapQuery": "Albert Heijn near Hyatt Regency Amsterdam Sarphatistraat 104 Amsterdam Netherlands", "imageAlt": "Dutch salty licorice reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 12, "city": "London", "title": "Liberty small home/design gift", "short": "Textiles, stationery, beauty, small design objects.", "photo": "https://i8.amplience.net/i/liberty/000742336-R428020006-1?%24hi-res%24=", "tags": ["Gift", "Design", "London"], "price": "£5–£60", "priority": "Medium", "where": "Liberty London", "why": "Better for you than Selfridges. More specific, more giftable, less giant luxury mall energy.", "lore": "Liberty is tied to London retail history and textile/pattern culture. The building and product world feel specific in a way most department stores don’t anymore.", "buyRule": "Buy a small Liberty print object, handkerchief, notebook, or grooming item. Keep it tight.", "skipIf": "Skip if it’s just expensive cute. Cute is not a reason. Cute is a trap.", "packing": "Easy.", "source": "https://www.libertylondon.com/", "photoFallback": "https://source.unsplash.com/1200x900/?london,department,store,fabric", "category": "Gift", "tier": "Nearby", "visitNote": "Better London gift stop than Selfridges.", "sourceNote": "Official Liberty site.", "mapQuery": "Liberty London Great Marlborough Street London United Kingdom", "imageAlt": "Liberty small home/design gift reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 13, "city": "London", "title": "Choosing Keeping stationery", "short": "One beautiful paper object, not a school-supply binge.", "photo": "https://choosingkeeping.com/cdn/shop/files/YtkBXxJSHly9ANGLEk-LBHyUYRR4RShi2zMk50mWI-A.png?crop=center&height=1862&v=1755862413&width=2997", "tags": ["Gift", "Flat", "Small"], "price": "£3–£30", "priority": "Medium", "where": "Choosing Keeping, Covent Garden", "why": "Flat, thoughtful, easy to pack, and good for someone who appreciates objects with taste.", "lore": "Choosing Keeping is a London stationery shop with a careful, old-world eye: pencils, paper, notebooks, drawing tools, desk things that feel like they have souls.", "buyRule": "Buy one notebook, card set, pencil bundle, or desk object.", "skipIf": "Skip if you’re just buying stationery because it’s pretty. Pretty piles become clutter.", "packing": "Perfect carry-on item.", "source": "https://choosingkeeping.com/", "photoFallback": "https://source.unsplash.com/1200x900/?stationery,notebook,pencils", "category": "Stationery", "tier": "Nearby", "visitNote": "Flat, small, easy. Good London add-on.", "sourceNote": "Official shop site.", "mapQuery": "Choosing Keeping 21 Tower Street London United Kingdom", "imageAlt": "Choosing Keeping stationery reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 14, "city": "London", "title": "DSM London small accessory/object", "short": "A CDG/DSM weird thing if it earns the swipe.", "photo": "https://london.doverstreetmarket.com/cdn/shop/files/IGfeed_nikecdghp_announce_01_30bbaccc-fdf0-425e-804e-ffb3491bf5a2.jpg?v=1782385588&width=2232", "tags": ["Fashion", "Browse", "Ruthless"], "price": "£20–£250+", "priority": "Medium-low", "where": "Dover Street Market London", "why": "Worth seeing, not automatically worth buying. You have DSM LA. London has to prove itself.", "lore": "Dover Street Market was conceived by Rei Kawakubo and Adrian Joffe as a collision point for creators, fashion, and installations rather than a normal shop.", "buyRule": "Cap the visit at 45 minutes. Buy only London/DSM-specific, CDG oddities, books, fragrance, or a killer accessory.", "skipIf": "Skip any piece you can get at DSM LA or online without emotional damage.", "packing": "Easy unless you buy shoes or a jacket, which you probably should not.", "source": "https://london.doverstreetmarket.com/pages/dsm-locations", "photoFallback": "https://source.unsplash.com/1200x900/?fashion,boutique,london", "category": "Apparel", "tier": "Maybe", "visitNote": "45-minute cap. You have DSM LA.", "sourceNote": "Official DSM London location page.", "mapQuery": "Dover Street Market London 18-22 Haymarket London United Kingdom", "imageAlt": "DSM London small accessory/object reference image", "verified": "Audited July 2026", "kind": "souvenir"}, {"rank": 15, "city": "Belgium / Tomorrowland", "title": "Tomorrowland tee/cap/bandana", "short": "The only Belgium buy left on the board.", "photo": "https://store.tomorrowland.com/cdn/shop/files/32.0624.0817.139.3013_Detail.jpg?crop=center&height=5760&v=1720109772&width=5332", "tags": ["Memory buy", "Festival", "Small"], "price": "€20–€90", "priority": "Low but allowed", "where": "Official Tomorrowland / DreamVille stores in Boom", "why": "Belgium is no longer a shopping stop. This is a memory buy, not a value buy.", "lore": "Festival merch works when it is tied to the actual event and survives outside the festival. A cap or bandana can live. A giant flag usually goes to die in a closet.", "buyRule": "Buy early if you care about sizes. The official store lists Belgium festival-area and DreamVille stores during Tomorrowland, so this is the one Belgium exception that makes sense.", "skipIf": "Skip anything oversized, fragile, or wearable only inside the Tomorrowland bubble.", "packing": "Easy. Wash before wearing at home unless you want the scent of three days of beautiful chaos.", "source": "https://store.tomorrowland.com/en-us/pages/official-stores", "photoFallback": "https://source.unsplash.com/1200x900/?music,festival,crowd", "category": "Memory", "tier": "Nearby", "visitNote": "Only Belgium buy. Festival memory, not a haul.", "sourceNote": "Official Tomorrowland store locations page.", "mapQuery": "Tomorrowland DreamVille Boom Belgium", "imageAlt": "Tomorrowland tee/cap/bandana reference image", "verified": "Audited July 2026", "kind": "souvenir"}]};
+const STORAGE_KEY = "eurotripSavedSouvenirs.v1";
 
-    const STORAGE_KEY = "europeSouvenirSaved.simple.v2";
-    const state = { city: "All", category: "All", tier: "All", query: "", savedOnly: false };
+const state = { view: "timeline", city: "All", query: "", savedOnly: false };
+let saved = loadSaved();
+let lastFocus = null;
 
-    const grid = document.getElementById("grid");
-    const modal = document.getElementById("modal");
-    const closeBtn = document.querySelector(".close");
-    const emptyState = document.getElementById("emptyState");
-    const resultCount = document.getElementById("resultCount");
-    const savedCount = document.getElementById("savedCount");
-    const searchInput = document.getElementById("searchInput");
-    const categorySelect = document.getElementById("categorySelect");
-    const tierSelect = document.getElementById("tierSelect");
-    const savedOnlyBtn = document.getElementById("savedOnlyBtn");
-    let lastFocus = null;
-    let savedItems = loadSaved();
+const views = ["timeline", "places", "transit", "souvenirs", "info"];
+const cityNames = ["All","London","Belgium","Tomorrowland","Amsterdam","Lisbon","Transit"];
+const cityFilters = document.getElementById("cityFilters");
+const resultCount = document.getElementById("resultCount");
+const savedCount = document.getElementById("savedCount");
+const emptyState = document.getElementById("emptyState");
+const searchInput = document.getElementById("searchInput");
+const savedOnlyBtn = document.getElementById("savedOnlyBtn");
+const modal = document.getElementById("modal");
+const closeBtn = document.querySelector(".close");
 
-    function loadSaved() {
-      try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]")); }
-      catch { return new Set(); }
-    }
+function loadSaved(){try{return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]"))}catch{return new Set()}}
+function persist(){localStorage.setItem(STORAGE_KEY, JSON.stringify([...saved]))}
+function mapsUrl(q){return q ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}` : ""}
+function itemId(item){return `${item.rank}-${item.title}`}
+function clean(v){return (v||"").toString()}
+function blob(obj){return Object.values(obj).flat().join(" ").toLowerCase()}
+function match(obj){const q=state.query.trim().toLowerCase();return !q || blob(obj).includes(q)}
+function cityMatch(obj){return state.city==="All" || obj.city===state.city || (state.city==="Belgium" && obj.city==="Tomorrowland")}
+function statusClass(s){s=(s||"").toLowerCase(); if(s.includes("booked")||s.includes("planned")) return "booked"; if(s.includes("need")) return "needs"; if(s.includes("idea")) return "idea"; return ""}
+function sourceLink(url, label="Source"){return url ? `<a class="link" href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>` : ""}
+function mapLink(q, primary=false){const u=mapsUrl(q);return u ? `<a class="link ${primary?"primary":""}" href="${u}" target="_blank" rel="noopener noreferrer">Map</a>` : ""}
+function flightLink(flightNumber){
+  if(!flightNumber) return "";
+  const code = encodeURIComponent(flightNumber);
+  return `<a class="link" href="https://www.flightaware.com/live/flight/${code}" target="_blank" rel="noopener noreferrer">Track ${flightNumber}</a>`;
+}
+function fmtDate(d){const dt=new Date(d+"T12:00:00");return dt.toLocaleDateString("en-US",{weekday:"long", month:"short", day:"numeric"})}
 
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...savedItems]));
-    }
+function renderCityFilters(){
+  cityFilters.innerHTML = cityNames.map(c=>`<button class="filter ${state.city===c?"active":""}" data-city="${c}" type="button">${c}</button>`).join("");
+  cityFilters.querySelectorAll("[data-city]").forEach(btn => btn.addEventListener("click",()=>{state.city=btn.dataset.city; render()}));
+}
 
-    function idFor(item) { return `${item.rank}-${item.title}`; }
+function render(){
+  document.querySelectorAll("[data-view]").forEach(btn=>btn.classList.toggle("active", btn.dataset.view===state.view));
+  views.forEach(v=>document.getElementById(v).classList.toggle("active", v===state.view));
+  savedOnlyBtn.textContent = state.savedOnly ? "♥" : "♡";
+  savedOnlyBtn.setAttribute("aria-pressed", String(state.savedOnly));
+  savedCount.textContent = `${saved.size} saved`;
+  renderCityFilters();
 
-    function mapsUrl(item) {
-      if (!item.mapQuery) return "";
-      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
-    }
+  let count = 0;
+  if(state.view==="timeline") count = renderTimeline();
+  if(state.view==="places") count = renderPlaces();
+  if(state.view==="transit") count = renderTransit();
+  if(state.view==="souvenirs") count = renderSouvenirs();
+  if(state.view==="info") count = renderInfo();
 
-    function uniqueTags(item, limit = 2) {
-      const seen = new Set([String(item.category || "").toLowerCase()]);
-      return (item.tags || []).filter(tag => {
-        const key = String(tag).toLowerCase();
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      }).slice(0, limit);
-    }
+  resultCount.innerHTML = `Showing <strong>${count}</strong>`;
+  emptyState.classList.toggle("show", count===0);
+}
 
-    function searchBlob(item) {
-      return [
-        item.title, item.short, item.city, item.category, item.tier, item.priority,
-        item.where, item.why, item.lore, item.buyRule, item.skipIf, item.visitNote,
-        ...(item.tags || [])
-      ].join(" ").toLowerCase();
-    }
+function renderTimeline(){
+  const items = DATA.timeline.filter(i=>cityMatch(i)&&match(i));
+  const grouped = {};
+  items.forEach(i => (grouped[i.date] ||= []).push(i));
+  document.getElementById("timeline").innerHTML = Object.keys(grouped).sort().map(date => `
+    <div class="day">
+      <div class="day-head"><h2>${fmtDate(date)}</h2><span>${grouped[date][0].day}</span></div>
+      <div class="list">${grouped[date].map(eventCard).join("")}</div>
+    </div>
+  `).join("");
+  return items.length;
+}
 
-    function visibleItems() {
-      const q = state.query.trim().toLowerCase();
-      return ITEMS.filter(item => {
-        return (state.city === "All" || item.city === state.city)
-          && (state.category === "All" || item.category === state.category)
-          && (state.tier === "All" || item.tier === state.tier)
-          && (!q || searchBlob(item).includes(q))
-          && (!state.savedOnly || savedItems.has(idFor(item)));
-      });
-    }
+function eventCard(e){
+  return `<article class="row-card">
+    <div class="event-top">
+      <div class="time">${e.time}</div>
+      <div>
+        <h3 class="row-title">${e.title}</h3>
+        <p class="row-sub">${e.subtitle||""}</p>
+        <p class="details">${e.details||""}</p>
+      </div>
+      <span class="badge ${statusClass(e.status)}">${e.status||e.type}</span>
+    </div>
+    <div class="actions">${mapLink(e.mapQuery,true)}${flightLink(e.flightNumber)}${sourceLink(e.source, e.flightNumber ? "Airline" : "Source")}</div>
+  </article>`;
+}
 
-    window.handleImgError = function(img) {
-      const fallback = img.dataset.fallback;
-      if (fallback && img.src !== fallback) {
-        img.src = fallback;
-        img.dataset.fallback = "";
-        return;
-      }
-      img.style.display = "none";
-      const box = img.parentElement?.querySelector(".image-fallback");
-      if (box) box.style.display = "grid";
-    };
+function renderPlaces(){
+  const items = DATA.places.filter(i=>cityMatch(i)&&match(i));
+  const grouped = {};
+  items.forEach(i => (grouped[i.city] ||= []).push(i));
+  document.getElementById("places").innerHTML = Object.keys(grouped).map(city => `
+    <h2 class="section-title">${city}</h2>
+    <div class="place-grid">${grouped[city].map(placeCard).join("")}</div>
+  `).join("");
+  return items.length;
+}
 
-    function imageBlock(item) {
-      return `
-        <img src="${item.photo}" data-fallback="${item.photoFallback || ""}" alt="${item.imageAlt || `Reference image for ${item.title}`}" loading="lazy" onerror="handleImgError(this)" />
-        <div class="image-fallback">Image unavailable.</div>
-      `;
-    }
+function placeCard(p){
+  return `<article class="place-card">
+    <div class="small-meta"><span class="badge">${p.type}</span><span class="badge ${statusClass(p.status)}">${p.status}</span></div>
+    <h3>${p.title}</h3>
+    <p class="address">${p.address}</p>
+    <p class="notes">${p.notes}</p>
+    <div class="actions">${mapLink(p.mapQuery,true)}${sourceLink(p.source)}</div>
+  </article>`;
+}
 
-    function render() {
-      const list = visibleItems();
-      grid.innerHTML = "";
+function renderTransit(){
+  const items = DATA.transit.filter(i=>cityMatch(i)&&match(i));
+  document.getElementById("transit").innerHTML = `<div class="transit-grid">${items.map(t=>`
+    <article class="transit-card">
+      <div class="small-meta"><span class="badge">${t.type}</span><span class="badge">${t.date}</span></div>
+      <h3>${t.title}</h3>
+      <p class="address">${t.route}</p>
+      <p class="notes"><strong>${t.time}</strong><br>${t.travelers}<br>${t.notes}</p>
+      <div class="actions">${mapLink(t.mapQuery,true)}${flightLink(t.flightNumber)}${sourceLink(t.source, t.flightNumber ? "Airline" : "Source")}</div>
+    </article>
+  `).join("")}</div>`;
+  return items.length;
+}
 
-      list.forEach(item => {
-        const saved = savedItems.has(idFor(item));
-        const map = mapsUrl(item);
-        const extraTags = uniqueTags(item, 2);
+function uniqueTags(item, limit=2){
+  const seen = new Set([String(item.category||"").toLowerCase()]);
+  return (item.tags||[]).filter(tag => { const k=String(tag).toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; }).slice(0,limit);
+}
 
-        const card = document.createElement("article");
-        card.className = "card";
-        card.tabIndex = 0;
-        card.setAttribute("role", "button");
-        card.setAttribute("aria-label", `Open ${item.title}`);
-        card.innerHTML = `
-          <div class="media">
-            ${imageBlock(item)}
-            <span class="badge">#${item.rank}</span>
-            <button class="save" type="button" aria-label="${saved ? "Unsave" : "Save"} ${item.title}" aria-pressed="${saved}">${saved ? "♥" : "♡"}</button>
-          </div>
-          <div class="content">
-            <div class="meta"><span>${item.city.replace("Belgium / ", "")}</span><span>${item.tier}</span></div>
-            <h2>${item.title}</h2>
-            <p>${item.short}</p>
-            <div class="chips">
-              <span class="chip">${item.category}</span>
-              ${extraTags.map(tag => `<span class="chip">${tag}</span>`).join("")}
-            </div>
-            <div class="links">
-              ${map ? `<a class="mini-link" href="${map}" target="_blank" rel="noopener noreferrer">Map</a>` : ""}
-              <a class="mini-link" href="${item.source}" target="_blank" rel="noopener noreferrer">Source</a>
-            </div>
-          </div>
-        `;
+function renderSouvenirs(){
+  const items = DATA.souvenirs.filter(i => cityMatch(i) && match(i) && (!state.savedOnly || saved.has(itemId(i))));
+  document.getElementById("souvenirs").innerHTML = `<div class="grid">${items.map(souvenirCard).join("")}</div>`;
+  document.querySelectorAll(".save").forEach(btn => btn.addEventListener("click", e => {
+    e.stopPropagation();
+    const id = btn.dataset.id;
+    if(saved.has(id)) saved.delete(id); else saved.add(id);
+    persist(); render();
+  }));
+  document.querySelectorAll(".souvenir-card").forEach(card => card.addEventListener("click", () => {
+    const item = DATA.souvenirs.find(i => itemId(i) === card.dataset.id);
+    openSouvenir(item);
+  }));
+  document.querySelectorAll(".souvenir-card a").forEach(a => a.addEventListener("click", e => e.stopPropagation()));
+  return items.length;
+}
 
-        card.addEventListener("click", () => openModal(item));
-        card.addEventListener("keydown", e => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            openModal(item);
-          }
-        });
-        card.querySelector(".save").addEventListener("click", e => {
-          e.stopPropagation();
-          toggleSaved(item);
-        });
-        card.querySelectorAll("a").forEach(a => a.addEventListener("click", e => e.stopPropagation()));
-        grid.appendChild(card);
-      });
+function souvenirCard(item){
+  const id=itemId(item), isSaved=saved.has(id), map=mapsUrl(item.mapQuery);
+  const tags=uniqueTags(item,2);
+  return `<article class="souvenir-card" data-id="${id}" tabindex="0" role="button" aria-label="Open ${item.title}">
+    <div class="media">
+      <img src="${item.photo}" data-fallback="${item.photoFallback||""}" alt="${item.imageAlt||`Reference image for ${item.title}`}" loading="lazy" onerror="handleImgError(this)" />
+      <div class="image-fallback">Image unavailable.</div>
+      <span class="rank">#${item.rank}</span>
+      <button class="save" type="button" data-id="${id}" aria-pressed="${isSaved}" aria-label="${isSaved?"Unsave":"Save"} ${item.title}">${isSaved?"♥":"♡"}</button>
+    </div>
+    <div class="content">
+      <div class="card-meta"><span>${item.city.replace("Belgium / ","")}</span><span>${item.tier}</span></div>
+      <h3>${item.title}</h3>
+      <p>${item.short}</p>
+      <div class="chips"><span class="chip">${item.category}</span>${tags.map(t=>`<span class="chip">${t}</span>`).join("")}</div>
+      <div class="actions">${map ? `<a class="link primary" href="${map}" target="_blank" rel="noopener noreferrer">Map</a>` : ""}${sourceLink(item.source)}</div>
+    </div>
+  </article>`;
+}
 
-      emptyState.classList.toggle("show", list.length === 0);
-      resultCount.innerHTML = `Showing <strong>${list.length}</strong>`;
-      savedCount.textContent = `${savedItems.size} saved`;
-      savedOnlyBtn.textContent = state.savedOnly ? "♥" : "♡";
-      savedOnlyBtn.setAttribute("aria-pressed", String(state.savedOnly));
-      syncTabs();
-    }
+window.handleImgError = function(img){
+  const fallback = img.dataset.fallback;
+  if(fallback && img.src !== fallback){ img.src = fallback; img.dataset.fallback=""; return; }
+  img.style.display="none";
+  const box = img.parentElement?.querySelector(".image-fallback");
+  if(box) box.style.display="grid";
+}
 
-    function toggleSaved(item) {
-      const id = idFor(item);
-      if (savedItems.has(id)) savedItems.delete(id);
-      else savedItems.add(id);
-      saveState();
-      render();
-    }
+function renderInfo(){
+  const links = DATA.trip.helpfulLinks || [];
+  document.getElementById("info").innerHTML = `
+    <h2 class="section-title">Route</h2>
+    <div class="place-grid">
+      <article class="place-card"><h3>Travelers</h3><p class="notes">${DATA.trip.travelers.join(" / ")}</p></article>
+      <article class="place-card"><h3>Dates</h3><p class="notes">${DATA.trip.dates}</p></article>
+      <article class="place-card"><h3>Route</h3><p class="notes">${DATA.trip.route.join(" → ")}</p></article>
+    </div>
+    <h2 class="section-title">Helpful links</h2>
+    <div class="place-grid">${links.map(l => `
+      <article class="place-card">
+        <h3>${l.title}</h3>
+        <p class="notes">${l.notes}</p>
+        <div class="actions"><a class="link primary" href="${l.url}" target="_blank" rel="noopener noreferrer">Open</a></div>
+      </article>
+    `).join("")}</div>
+    <h2 class="section-title">Lodging</h2>
+    <div class="place-grid">${DATA.places.filter(p=>p.type==="Stay").map(placeCard).join("")}</div>
+    <div class="privacy">${DATA.trip.privacy}<br><br><strong>iPhone tip:</strong> Flight numbers are shown as plain text, like UA923 and TP247, so iOS may offer “Preview Flight” when it recognizes them. It is not guaranteed in every browser/context, so the tracker and airline links are included as backup.</div>
+  `;
+  return 1 + links.length + DATA.places.filter(p=>p.type==="Stay").length;
+}
 
-    function openModal(item) {
-      lastFocus = document.activeElement;
+function openSouvenir(item){
+  lastFocus = document.activeElement;
+  const img=document.getElementById("modalImg"), fb=document.getElementById("modalFallback");
+  img.style.display="block"; fb.style.display="none";
+  img.onerror=function(){ if(item.photoFallback && img.src!==item.photoFallback){img.src=item.photoFallback;return;} img.style.display="none"; fb.style.display="grid"; };
+  img.src=item.photo; img.alt=item.imageAlt || `Reference image for ${item.title}`;
+  document.getElementById("modalKicker").textContent = `#${item.rank} · ${item.city} · ${item.tier}`;
+  document.getElementById("modalTitle").textContent = item.title;
+  document.getElementById("modalShort").textContent = item.short;
+  document.getElementById("modalTags").innerHTML = [item.category,...uniqueTags(item,10)].map(t=>`<span class="chip">${t}</span>`).join("");
+  document.getElementById("modalActions").innerHTML = `${mapLink(item.mapQuery,true)}${sourceLink(item.source)}`;
+  document.getElementById("modalInfo").innerHTML = `
+    <div><span class="label">Where</span><span class="value">${item.where}</span></div>
+    <div><span class="label">Price</span><span class="value">${item.price}</span></div>
+    <div><span class="label">Priority</span><span class="value">${item.priority}</span></div>
+    <div><span class="label">Packing</span><span class="value">${item.packing}</span></div>`;
+  document.getElementById("modalSections").innerHTML = `
+    <div class="modal-section"><h4>Why</h4><p>${item.why}</p></div>
+    <div class="modal-section"><h4>Lore</h4><p>${item.lore}</p></div>
+    <div class="modal-section"><h4>Buy rule</h4><p class="buy">${item.buyRule}</p></div>
+    <div class="modal-section"><h4>Skip rule</h4><p class="skip">${item.skipIf}</p></div>`;
+  modal.classList.add("open"); document.body.classList.add("modal-lock"); closeBtn.focus();
+}
 
-      const img = document.getElementById("modalImg");
-      const fallback = document.getElementById("modalFallback");
-      img.style.display = "block";
-      fallback.style.display = "none";
-      img.onerror = function() {
-        if (item.photoFallback && img.src !== item.photoFallback) {
-          img.src = item.photoFallback;
-          return;
-        }
-        img.style.display = "none";
-        fallback.style.display = "grid";
-      };
-      img.src = item.photo;
-      img.alt = item.imageAlt || `Reference image for ${item.title}`;
+function closeModal(){
+  modal.classList.remove("open"); document.body.classList.remove("modal-lock");
+  if(lastFocus && typeof lastFocus.focus==="function") lastFocus.focus();
+}
 
-      const extraTags = uniqueTags(item, 10);
+document.querySelectorAll("[data-view]").forEach(btn=>btn.addEventListener("click",()=>{state.view=btn.dataset.view; state.savedOnly=false; render()}));
+searchInput.addEventListener("input", e=>{state.query=e.target.value; render()});
+savedOnlyBtn.addEventListener("click",()=>{state.view="souvenirs"; state.savedOnly=!state.savedOnly; render()});
+closeBtn.addEventListener("click", closeModal);
+modal.addEventListener("click", e=>{if(e.target===modal) closeModal()});
+document.addEventListener("keydown", e=>{if(e.key==="Escape" && modal.classList.contains("open")) closeModal()});
 
-      document.getElementById("modalKicker").textContent = `#${item.rank} · ${item.city} · ${item.tier}`;
-      document.getElementById("modalTitle").textContent = item.title;
-      document.getElementById("modalShort").textContent = item.short;
-      document.getElementById("modalTags").innerHTML = [item.category, ...extraTags].map(tag => `<span class="chip">${tag}</span>`).join("");
-      document.getElementById("modalVisitNote").textContent = item.visitNote || "Needs verification.";
-      document.getElementById("modalWhere").textContent = item.where;
-      document.getElementById("modalPrice").textContent = item.price;
-      document.getElementById("modalPriority").textContent = item.priority;
-      document.getElementById("modalPacking").textContent = item.packing;
-      document.getElementById("modalWhy").textContent = item.why;
-      document.getElementById("modalLore").textContent = item.lore;
-      document.getElementById("modalBuy").textContent = item.buyRule;
-      document.getElementById("modalSkip").textContent = item.skipIf;
-      document.getElementById("modalSourceNote").textContent = item.sourceNote || "";
-      document.getElementById("modalSource").href = item.source;
-
-      const map = mapsUrl(item);
-      const mapLink = document.getElementById("modalMap");
-      if (map) {
-        mapLink.href = map;
-        mapLink.style.display = "inline-flex";
-      } else {
-        mapLink.style.display = "none";
-      }
-
-      modal.classList.add("open");
-      document.body.classList.add("modal-lock");
-      closeBtn.focus();
-    }
-
-    function closeModal() {
-      modal.classList.remove("open");
-      document.body.classList.remove("modal-lock");
-      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
-    }
-
-    function setCity(city) {
-      state.city = city;
-      render();
-    }
-
-    function syncTabs() {
-      document.querySelectorAll("[data-filter]").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.filter === state.city);
-      });
-      categorySelect.value = state.category;
-      tierSelect.value = state.tier;
-    }
-
-    function populateCategories() {
-      [...new Set(ITEMS.map(item => item.category).filter(Boolean))].sort().forEach(category => {
-        const option = document.createElement("option");
-        option.value = category;
-        option.textContent = category;
-        categorySelect.appendChild(option);
-      });
-    }
-
-    document.querySelectorAll("[data-filter]").forEach(btn => btn.addEventListener("click", () => setCity(btn.dataset.filter)));
-    searchInput.addEventListener("input", e => { state.query = e.target.value; render(); });
-    categorySelect.addEventListener("change", e => { state.category = e.target.value; render(); });
-    tierSelect.addEventListener("change", e => { state.tier = e.target.value; render(); });
-    savedOnlyBtn.addEventListener("click", () => { state.savedOnly = !state.savedOnly; render(); });
-    closeBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
-    });
-
-    populateCategories();
-    render();
-  </script>
+render();
+</script>
 </body>
 </html>
