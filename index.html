@@ -1,228 +1,497 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f3eb" />
   <title>Europe Souvenir Hit List</title>
   <style>
     :root {
-      --bg: #11100e;
-      --panel: #1b1916;
-      --panel-2: #24211d;
-      --text: #f5efe4;
-      --muted: #b9ad9d;
-      --line: rgba(245,239,228,.14);
-      --accent: #e6b35a;
-      --accent-2: #7fb7a3;
-      --bad: #cf6f5f;
-      --good: #a8d08d;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --bg: #f7f3eb;
+      --bg-soft: #efe8dc;
+      --paper: #fffdf8;
+      --panel: #fffaf1;
+      --panel-2: #f1eadf;
+      --text: #15120e;
+      --muted: #746b5d;
+      --muted-2: #9b9286;
+      --line: rgba(21,18,14,.12);
+      --line-strong: rgba(21,18,14,.22);
+      --accent: #9b6f2c;
+      --accent-2: #6f7f68;
+      --bad: #9a4d3f;
+      --good: #4f6f55;
+      --shadow: 0 18px 50px rgba(53,43,30,.12);
+      --shadow-soft: 0 10px 28px rgba(53,43,30,.08);
       --radius: 22px;
+      --radius-lg: 30px;
+      --bottom-nav-height: 78px;
     }
+
     * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 10% -10%, rgba(230,179,90,.22), transparent 32rem),
-        radial-gradient(circle at 90% 10%, rgba(127,183,163,.18), transparent 28rem),
-        var(--bg);
+        radial-gradient(circle at 8% -8%, rgba(155,111,44,.12), transparent 28rem),
+        linear-gradient(180deg, #fbf8f1 0%, var(--bg) 36%, #eee6d8 100%);
       color: var(--text);
       min-height: 100vh;
     }
-    a { color: inherit; }
-    .wrap {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 32px 0 60px;
+
+    body.modal-lock {
+      overflow: hidden;
+      touch-action: none;
     }
+
+    a { color: inherit; }
+
+    button, input, select { font: inherit; }
+
+    button { -webkit-tap-highlight-color: transparent; }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 999;
+      transform: translateY(-140%);
+      background: var(--text);
+      color: var(--paper);
+      border-radius: 999px;
+      padding: 11px 14px;
+      font-weight: 850;
+      text-decoration: none;
+      transition: transform .18s ease;
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .wrap {
+      width: min(1120px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 22px 0 calc(96px + env(safe-area-inset-bottom));
+    }
+
     header {
       display: grid;
-      grid-template-columns: 1.4fr .8fr;
-      gap: 24px;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 26px;
       align-items: end;
-      margin-bottom: 24px;
+      margin: 18px 0 18px;
+      padding-top: 8px;
     }
+
     .eyebrow {
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: .16em;
-      font-size: 12px;
-      font-weight: 800;
+      letter-spacing: .18em;
+      font-size: 11px;
+      font-weight: 900;
       margin-bottom: 12px;
     }
+
     h1 {
       margin: 0;
-      font-size: clamp(38px, 7vw, 92px);
+      max-width: 840px;
+      font-size: clamp(44px, 8vw, 96px);
       line-height: .88;
-      letter-spacing: -.07em;
-      max-width: 880px;
+      letter-spacing: -.075em;
+      font-weight: 920;
     }
+
     .sub {
       color: var(--muted);
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.55;
-      max-width: 520px;
+      max-width: 540px;
       margin: 0 0 4px;
     }
-    .topbar {
+
+    .controls-shell {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 30;
+      margin: 20px 0 16px;
+      padding: 10px;
+      border: 1px solid rgba(21,18,14,.1);
+      border-radius: 26px;
+      background: rgba(255,253,248,.78);
+      box-shadow: var(--shadow-soft);
       backdrop-filter: blur(18px);
-      background: rgba(17,16,14,.72);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px;
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin: 24px 0;
-      box-shadow: 0 10px 40px rgba(0,0,0,.18);
+      -webkit-backdrop-filter: blur(18px);
     }
-    .filter {
-      border: 0;
-      border-radius: 999px;
-      padding: 10px 14px;
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+
+    .search-wrap { position: relative; }
+
+    .search-wrap::before {
+      content: "⌕";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-52%);
+      color: var(--muted-2);
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    #searchInput {
+      width: 100%;
+      height: 46px;
+      border: 1px solid var(--line);
+      background: rgba(247,243,235,.82);
       color: var(--text);
+      border-radius: 999px;
+      padding: 0 16px 0 39px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    #searchInput::placeholder { color: var(--muted-2); }
+
+    #searchInput:focus,
+    select:focus,
+    button:focus-visible,
+    a:focus-visible {
+      outline: none;
+      border-color: rgba(155,111,44,.55);
+      box-shadow: 0 0 0 4px rgba(155,111,44,.14);
+    }
+
+    .icon-button,
+    .reset-button,
+    .save-button,
+    .source-link,
+    .map-link {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    .icon-button,
+    .reset-button {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0 14px;
+      cursor: pointer;
+      font-weight: 850;
+      box-shadow: 0 6px 16px rgba(53,43,30,.06);
+    }
+
+    .icon-button[aria-pressed="true"],
+    .reset-button:hover,
+    .icon-button:hover {
+      border-color: rgba(155,111,44,.35);
+      background: #f4ead8;
+    }
+
+    .filter-row,
+    .topbar {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding: 2px 2px 4px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-row::-webkit-scrollbar,
+    .topbar::-webkit-scrollbar { display: none; }
+
+    .filter,
+    .pill-filter {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 9px 12px;
+      color: var(--muted);
       background: transparent;
       cursor: pointer;
       white-space: nowrap;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1;
     }
-    .filter.active {
+
+    .filter.active,
+    .pill-filter.active {
       background: var(--text);
-      color: var(--bg);
+      color: var(--paper);
+      border-color: var(--text);
     }
+
+    .secondary-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    select {
+      width: 100%;
+      min-height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(247,243,235,.86);
+      color: var(--text);
+      padding: 0 12px;
+      outline: none;
+      cursor: pointer;
+      font-weight: 760;
+    }
+
+    .result-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 14px 2px 13px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .result-line strong { color: var(--text); }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 14px;
     }
+
     .card {
       position: relative;
-      min-height: 392px;
       overflow: hidden;
-      border-radius: var(--radius);
-      background: var(--panel);
-      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255,253,248,.84);
+      border: 1px solid rgba(21,18,14,.1);
       cursor: pointer;
-      box-shadow: 0 8px 30px rgba(0,0,0,.22);
-      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-      isolation: isolate;
+      box-shadow: var(--shadow-soft);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
+
     .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(230,179,90,.55);
-      box-shadow: 0 18px 50px rgba(0,0,0,.36);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: rgba(155,111,44,.28);
     }
+
+    .card-media {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: var(--panel-2);
+    }
+
     .card img {
-      position: absolute;
-      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: saturate(.88) contrast(1.02);
-      transform: scale(1.02);
-      z-index: -2;
+      display: block;
+      filter: saturate(.94) contrast(1.01);
+      transform: scale(1.01);
     }
-    .card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,.86), rgba(0,0,0,.24) 58%, rgba(0,0,0,.08));
-      z-index: -1;
+
+    .image-fallback {
+      display: none;
+      place-items: center;
+      height: 100%;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(155,111,44,.12), transparent 13rem),
+        #f0e8dc;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 800;
+      font-size: 13px;
     }
+
     .rank {
       position: absolute;
-      top: 14px;
-      left: 14px;
-      width: 44px;
-      height: 44px;
+      top: 10px;
+      left: 10px;
+      min-width: 40px;
+      height: 34px;
       border-radius: 999px;
       display: grid;
       place-items: center;
-      background: rgba(245,239,228,.95);
-      color: var(--bg);
-      font-weight: 900;
-      font-size: 15px;
-      letter-spacing: -.02em;
-    }
-    .city {
-      position: absolute;
-      top: 16px;
-      right: 14px;
-      background: rgba(17,16,14,.66);
-      border: 1px solid rgba(245,239,228,.22);
-      border-radius: 999px;
-      padding: 7px 10px;
+      padding: 0 10px;
+      background: rgba(255,253,248,.88);
       color: var(--text);
-      font-size: 12px;
-      font-weight: 800;
-      backdrop-filter: blur(8px);
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: -.02em;
+      border: 1px solid rgba(21,18,14,.08);
+      backdrop-filter: blur(10px);
     }
-    .card-body {
+
+    .save-button {
       position: absolute;
-      inset: auto 0 0;
-      padding: 20px;
+      top: 10px;
+      right: 10px;
+      border: 1px solid rgba(21,18,14,.08);
+      background: rgba(255,253,248,.88);
+      color: var(--text);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      font-size: 18px;
     }
+
+    .save-button[aria-pressed="true"] {
+      background: var(--text);
+      color: var(--paper);
+    }
+
+    .card-body { padding: 14px 14px 13px; }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 920;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .tier { color: var(--accent); }
+
     .card h2 {
-      margin: 0 0 8px;
-      font-size: 25px;
-      line-height: 1;
+      margin: 0 0 7px;
+      font-size: 21px;
+      line-height: 1.02;
       letter-spacing: -.045em;
+      font-weight: 920;
     }
+
     .card p {
       margin: 0;
-      color: rgba(245,239,228,.82);
-      font-size: 14px;
+      color: var(--muted);
+      font-size: 13.5px;
       line-height: 1.42;
     }
+
     .chips {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
+
     .chip {
-      font-size: 11px;
-      font-weight: 800;
+      font-size: 10.5px;
+      font-weight: 850;
       border-radius: 999px;
       padding: 6px 8px;
-      background: rgba(245,239,228,.16);
-      border: 1px solid rgba(245,239,228,.13);
-      color: rgba(245,239,228,.88);
+      background: rgba(21,18,14,.055);
+      border: 1px solid rgba(21,18,14,.07);
+      color: var(--muted);
     }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .mini-link {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(247,243,235,.72);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mini-link:hover {
+      background: #ede3d1;
+      border-color: rgba(155,111,44,.28);
+    }
+
+    .empty {
+      display: none;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255,253,248,.58);
+    }
+
+    .empty.show { display: block; }
+
     .modal {
       position: fixed;
       inset: 0;
       z-index: 100;
       display: none;
-      padding: 20px;
-      align-items: center;
+      align-items: end;
       justify-content: center;
-      background: rgba(0,0,0,.72);
+      background: rgba(21,18,14,.22);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 18px;
     }
+
     .modal.open { display: flex; }
+
     .modal-card {
       width: min(1040px, 100%);
-      max-height: min(88vh, 920px);
-      overflow: auto;
-      border-radius: 28px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--line);
+      max-height: min(90vh, 920px);
+      overflow: hidden;
+      border-radius: 34px;
+      background: var(--paper);
+      box-shadow: 0 30px 90px rgba(53,43,30,.22);
+      border: 1px solid rgba(21,18,14,.12);
       display: grid;
-      grid-template-columns: .95fr 1.05fr;
+      grid-template-columns: .92fr 1.08fr;
     }
+
     .modal-photo {
       min-height: 620px;
-      position: sticky;
-      top: 0;
-      align-self: start;
       background: var(--panel-2);
+      position: relative;
     }
+
     .modal-photo img {
       width: 100%;
       height: 100%;
@@ -230,254 +499,872 @@
       object-fit: cover;
       display: block;
     }
-    .modal-content {
-      padding: 28px;
+
+    .modal-fallback {
+      display: none;
+      height: 100%;
+      min-height: 620px;
+      place-items: center;
+      padding: 30px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 850;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(155,111,44,.12), transparent 18rem),
+        #f0e8dc;
     }
+
+    .modal-content {
+      overflow: auto;
+      padding: 24px 26px 28px;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .modal-kicker {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      margin: -24px -26px 14px;
+      padding: 14px 16px 12px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
       color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
+      background: rgba(255,253,248,.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(21,18,14,.08);
+      font-size: 12px;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: .12em;
+      letter-spacing: .1em;
     }
+
     .close {
       border: 1px solid var(--line);
-      background: rgba(245,239,228,.08);
+      background: var(--paper);
       color: var(--text);
       border-radius: 999px;
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       cursor: pointer;
-      font-size: 24px;
+      font-size: 22px;
       line-height: 1;
+      box-shadow: 0 8px 18px rgba(53,43,30,.08);
     }
+
     .modal h3 {
-      margin: 18px 0 10px;
-      font-size: clamp(36px, 5vw, 62px);
+      margin: 0 0 10px;
+      font-size: clamp(36px, 5.4vw, 62px);
       letter-spacing: -.07em;
-      line-height: .92;
+      line-height: .9;
+      font-weight: 930;
     }
+
     .dek {
       color: var(--muted);
       line-height: 1.55;
-      font-size: 16px;
-      margin: 0 0 20px;
+      font-size: 15.5px;
+      margin: 0 0 15px;
     }
+
+    .quick-note {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: start;
+      margin: 15px 0 18px;
+      padding: 13px;
+      border-radius: 18px;
+      background: #f2eadb;
+      border: 1px solid rgba(155,111,44,.14);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .quick-note strong { color: var(--text); }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin: 16px 0 18px;
+    }
+
+    .source-link,
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-weight: 920;
+      color: var(--paper);
+      background: var(--text);
+      border-radius: 999px;
+      padding: 12px 15px;
+      border: 1px solid var(--text);
+    }
+
+    .map-link {
+      color: var(--text);
+      background: transparent;
+      border-color: var(--line-strong);
+    }
+
+    .map-link:hover,
+    .source-link:hover {
+      transform: translateY(-1px);
+    }
+
     .meta {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin: 20px 0 24px;
+      gap: 9px;
+      margin: 18px 0 22px;
     }
+
     .meta div {
       border: 1px solid var(--line);
-      background: rgba(245,239,228,.05);
-      border-radius: 16px;
+      background: rgba(247,243,235,.58);
+      border-radius: 17px;
       padding: 12px;
+      min-width: 0;
     }
+
     .label {
       display: block;
       color: var(--accent);
-      font-size: 11px;
-      font-weight: 900;
+      font-size: 10px;
+      font-weight: 950;
       text-transform: uppercase;
-      letter-spacing: .13em;
+      letter-spacing: .12em;
       margin-bottom: 5px;
     }
+
+    .meta span:last-child {
+      color: var(--text);
+      font-size: 13.5px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
     .section {
       border-top: 1px solid var(--line);
-      padding-top: 18px;
-      margin-top: 18px;
+      padding-top: 17px;
+      margin-top: 17px;
     }
+
     .section h4 {
-      margin: 0 0 8px;
+      margin: 0 0 7px;
       color: var(--text);
-      font-size: 14px;
-      letter-spacing: .08em;
+      font-size: 12px;
+      letter-spacing: .09em;
       text-transform: uppercase;
+      font-weight: 950;
     }
+
     .section p {
       margin: 0;
       color: var(--muted);
       line-height: 1.58;
-      font-size: 15px;
+      font-size: 14.5px;
     }
-    .buy {
-      color: var(--good) !important;
+
+    .buy { color: var(--good) !important; }
+    .skip { color: var(--bad) !important; }
+
+    .source-note {
+      margin-top: 16px;
+      color: var(--muted-2);
+      font-size: 12.5px;
+      line-height: 1.45;
     }
-    .skip {
-      color: #e7a29a !important;
-    }
-    .source-link {
-      display: inline-flex;
-      margin-top: 22px;
-      text-decoration: none;
-      font-weight: 900;
-      color: var(--bg);
-      background: var(--accent);
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      z-index: 70;
+      width: min(540px, calc(100% - 24px));
+      display: none;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      padding: 7px;
       border-radius: 999px;
-      padding: 12px 16px;
+      background: rgba(255,253,248,.86);
+      border: 1px solid rgba(21,18,14,.1);
+      box-shadow: 0 20px 50px rgba(53,43,30,.18);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
+
+    .bottom-nav button {
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      min-height: 44px;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .05em;
+      cursor: pointer;
+    }
+
+    .bottom-nav button.active {
+      background: var(--text);
+      color: var(--paper);
+    }
+
     .footnote {
       margin-top: 28px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12.5px;
       line-height: 1.55;
-      border: 1px dashed var(--line);
-      border-radius: 16px;
+      border: 1px dashed var(--line-strong);
+      border-radius: 18px;
       padding: 14px;
-      background: rgba(245,239,228,.04);
+      background: rgba(255,253,248,.54);
     }
+
     @media (max-width: 900px) {
-      header { grid-template-columns: 1fr; }
+      header {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
       .grid { grid-template-columns: repeat(2, 1fr); }
-      .modal-card { grid-template-columns: 1fr; }
-      .modal-photo { position: relative; min-height: 300px; }
-      .modal-photo img { min-height: 300px; max-height: 360px; }
+
+      .modal-card {
+        grid-template-columns: 1fr;
+        overflow: auto;
+      }
+
+      .modal-photo { min-height: 320px; }
+
+      .modal-photo img,
+      .modal-fallback {
+        min-height: 320px;
+        max-height: 380px;
+      }
     }
-    @media (max-width: 620px) {
-      .wrap { width: min(100% - 20px, 1180px); padding-top: 18px; }
-      .grid { grid-template-columns: 1fr; }
-      .card { min-height: 340px; }
+
+    @media (max-width: 640px) {
+      .wrap {
+        width: min(100% - 20px, 1120px);
+        padding-top: 14px;
+      }
+
+      header { margin-top: 8px; }
+
+      h1 {
+        font-size: clamp(48px, 17vw, 76px);
+        max-width: 360px;
+      }
+
+      .sub { font-size: 14px; }
+
+      .controls-shell {
+        top: 0;
+        margin: 14px -2px 12px;
+        padding: 9px;
+        border-radius: 22px;
+      }
+
+      .search-row { grid-template-columns: 1fr auto auto; }
+
+      .reset-button { display: none; }
+
+      .secondary-controls { grid-template-columns: 1fr; }
+
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .card {
+        min-height: 0;
+        border-radius: 24px;
+        display: grid;
+        grid-template-columns: 112px 1fr;
+      }
+
+      .card-media {
+        height: 100%;
+        min-height: 172px;
+        aspect-ratio: auto;
+      }
+
+      .rank {
+        top: 8px;
+        left: 8px;
+        height: 30px;
+        min-width: 34px;
+        font-size: 12px;
+      }
+
+      .save-button {
+        top: auto;
+        right: auto;
+        left: 8px;
+        bottom: 8px;
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        min-height: 36px;
+      }
+
+      .card-body { padding: 13px 13px 12px; }
+
+      .card-meta {
+        font-size: 10px;
+        margin-bottom: 7px;
+      }
+
+      .card h2 { font-size: 20px; }
+
+      .card p { font-size: 13px; }
+
+      .chips {
+        gap: 5px;
+        margin-top: 10px;
+      }
+
+      .chip { padding: 5px 7px; }
+
+      .card-actions { margin-top: 10px; }
+
+      .mini-link { min-height: 36px; }
+
+      .modal {
+        padding: 0;
+        align-items: end;
+        background: rgba(21,18,14,.24);
+      }
+
+      .modal-card {
+        width: 100%;
+        height: min(94vh, 980px);
+        max-height: none;
+        border-radius: 28px 28px 0 0;
+        border-bottom: 0;
+      }
+
+      .modal-card::before {
+        content: "";
+        position: sticky;
+        top: 8px;
+        z-index: 5;
+        margin: 8px auto -2px;
+        width: 46px;
+        height: 5px;
+        border-radius: 999px;
+        background: rgba(21,18,14,.18);
+        display: block;
+      }
+
+      .modal-photo { min-height: 242px; }
+
+      .modal-photo img,
+      .modal-fallback {
+        min-height: 242px;
+        max-height: 292px;
+      }
+
+      .modal-content { padding: 20px 18px 28px; }
+
+      .modal-kicker {
+        margin: -20px -18px 14px;
+        padding: 11px 12px 10px 18px;
+      }
+
+      .modal h3 {
+        font-size: clamp(36px, 12vw, 56px);
+      }
+
+      .action-row { grid-template-columns: 1fr; }
+
       .meta { grid-template-columns: 1fr; }
-      .modal { padding: 10px; }
-      .modal-content { padding: 22px; }
+
+      .bottom-nav { display: grid; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition-duration: .001ms !important;
+        animation-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#grid">Skip to guide</a>
+
   <main class="wrap">
     <header>
       <div>
         <div class="eyebrow">Europe souvenir hit list</div>
         <h1>Buy less. Bring back better.</h1>
       </div>
-      <p class="sub">A ruthless, suitcase-conscious shopping guide for London, Amsterdam, Lisbon, and the tiny Tomorrowland exception. Click any card for the why, the lore, the buy rule, and the skip rule.</p>
+      <p class="sub">A clean, suitcase-conscious shopping guide for London, Amsterdam, Lisbon, and the one Tomorrowland exception. Built for walking around with one hand free and no patience for tourist garbage.</p>
     </header>
 
-    <nav class="topbar" aria-label="City filters">
-      <button class="filter active" data-filter="All">All</button>
-      <button class="filter" data-filter="Lisbon">Lisbon</button>
-      <button class="filter" data-filter="Amsterdam">Amsterdam</button>
-      <button class="filter" data-filter="London">London</button>
-      <button class="filter" data-filter="Belgium / Tomorrowland">Tomorrowland</button>
-    </nav>
+    <section class="controls-shell" aria-label="Guide controls">
+      <div class="search-row">
+        <label class="search-wrap" for="searchInput">
+          <span class="visually-hidden">Search items</span>
+          <input id="searchInput" type="search" placeholder="Search tins, tea, Patta, gifts…" autocomplete="off" />
+        </label>
+        <button class="icon-button" id="savedOnlyBtn" type="button" aria-pressed="false" title="Show saved only">♡</button>
+        <button class="reset-button" id="resetBtn" type="button">Reset</button>
+      </div>
+
+      <nav class="topbar" aria-label="City filters">
+        <button class="filter active" data-filter="All" type="button">All</button>
+        <button class="filter" data-filter="Lisbon" type="button">Lisbon</button>
+        <button class="filter" data-filter="Amsterdam" type="button">Amsterdam</button>
+        <button class="filter" data-filter="London" type="button">London</button>
+        <button class="filter" data-filter="Belgium / Tomorrowland" type="button">Tomorrowland</button>
+      </nav>
+
+      <div class="secondary-controls">
+        <label>
+          <span class="visually-hidden">Filter by category</span>
+          <select id="categorySelect">
+            <option value="All">All categories</option>
+          </select>
+        </label>
+        <label>
+          <span class="visually-hidden">Filter by priority</span>
+          <select id="tierSelect">
+            <option value="All">All priorities</option>
+            <option value="Must Hit">Must Hit</option>
+            <option value="If Nearby">If Nearby</option>
+            <option value="Skip Unless Bored">Skip Unless Bored</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <div class="result-line">
+      <span id="resultCount">Showing everything.</span>
+      <span id="savedCount">0 saved</span>
+    </div>
 
     <section id="grid" class="grid" aria-live="polite"></section>
 
-    <p class="footnote">Photos now use product/store images where available, with fallback mood images if a shop blocks hotlinking. Check store hours before you go. Declare food when returning to the U.S.; sauces/liquids over 100 ml belong in checked luggage.</p>
+    <div id="emptyState" class="empty">
+      <strong>No hits.</strong><br />
+      Clear a filter. The suitcase has standards, but it does not need to be impossible.
+    </div>
+
+    <p class="footnote">Photos use product/store images where available, with fallbacks if a shop blocks hotlinking. Map buttons use Google Maps search links when there is a usable store, area, or shopping query. Check hours before you move. Declare food when returning to the U.S.; sauces/liquids over 100 ml belong in checked luggage.</p>
   </main>
 
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-card">
-      <div class="modal-photo"><img id="modalImg" alt=""></div>
+  <nav class="bottom-nav" aria-label="Mobile city switcher">
+    <button data-filter="All" class="active" type="button">ALL</button>
+    <button data-filter="Lisbon" type="button">LIS</button>
+    <button data-filter="Amsterdam" type="button">AMS</button>
+    <button data-filter="London" type="button">LON</button>
+    <button data-filter="Belgium / Tomorrowland" type="button">TMLD</button>
+  </nav>
+
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalShort">
+    <article class="modal-card" role="document">
+      <div class="modal-photo">
+        <img id="modalImg" alt="" />
+        <div id="modalFallback" class="modal-fallback">Image unavailable. Still worth considering.</div>
+      </div>
       <div class="modal-content">
-        <div class="modal-kicker"><span id="modalKicker"></span><button class="close" aria-label="Close">×</button></div>
+        <div class="modal-kicker">
+          <span id="modalKicker"></span>
+          <button class="close" aria-label="Close detail view" type="button">×</button>
+        </div>
+
         <h3 id="modalTitle"></h3>
         <p class="dek" id="modalShort"></p>
         <div class="chips" id="modalTags"></div>
+
+        <div class="quick-note">
+          <strong>Move</strong>
+          <span id="modalVisitNote"></span>
+        </div>
+
+        <div class="action-row">
+          <a class="source-link" id="modalSource" target="_blank" rel="noopener noreferrer">Open source</a>
+          <a class="map-link" id="modalMap" target="_blank" rel="noopener noreferrer">Open map</a>
+        </div>
+
         <div class="meta">
           <div><span class="label">Where</span><span id="modalWhere"></span></div>
           <div><span class="label">Price</span><span id="modalPrice"></span></div>
           <div><span class="label">Priority</span><span id="modalPriority"></span></div>
           <div><span class="label">Packing</span><span id="modalPacking"></span></div>
+          <div><span class="label">Category</span><span id="modalCategory"></span></div>
+          <div><span class="label">Audit</span><span id="modalVerified"></span></div>
         </div>
+
         <div class="section"><h4>Why it’s worth it</h4><p id="modalWhy"></p></div>
         <div class="section"><h4>The lore</h4><p id="modalLore"></p></div>
         <div class="section"><h4>Buy rule</h4><p class="buy" id="modalBuy"></p></div>
         <div class="section"><h4>Skip rule</h4><p class="skip" id="modalSkip"></p></div>
-        <a class="source-link" id="modalSource" target="_blank" rel="noopener">Source / store link</a>
+        <p class="source-note" id="modalSourceNote"></p>
       </div>
-    </div>
+    </article>
   </div>
 
-<script>
-const ITEMS = [{"rank": 1, "city": "Lisbon", "title": "Portuguese tinned fish", "short": "Conservas from Lisbon, preferably Conserveira de Lisboa.", "photo": "https://www.myglobalviewpoint.com/wp-content/uploads/2024/07/Conserveira-de-Lisboa.webp", "tags": ["Pantry", "Gift", "Best overall"], "price": "€3–€10 per tin", "priority": "Main haul", "where": "Conserveira de Lisboa, A Vida Portuguesa, Silva & Feijóo", "why": "Best souvenir-to-usefulness ratio on the whole trip. It looks good, travels well, feeds you later, and does not scream airport gift shop.", "lore": "Portugal has a deep conservas culture tied to the Atlantic and old-school preservation. Conserveira de Lisboa traces its roots to Mercearia do Minho, established in 1930, and still feels like a tiny canned-seafood time capsule.", "buyRule": "Buy on July 24. Get a spread: sardines, mackerel, tuna belly, spicy options, and one gorgeous label for gifting.", "skipIf": "Skip novelty birthday-year sardine tins unless the packaging is genuinely good. Cute can become dumb fast.", "packing": "Checked bag preferred. Declare food when entering the U.S.", "source": "https://www.conserveiradelisboa.pt/history/", "photoFallback": "https://source.unsplash.com/1200x900/?portuguese,canned,sardines"}, {"rank": 2, "city": "Lisbon", "title": "Companhia Portugueza do Chá tea", "short": "Tea from the São Bento / Poço dos Negros zone.", "photo": "https://www.avidaportuguesa.com/assets/uploads/store/products/alimentacao/cha_lisbonb_1_cpc.jpg", "tags": ["Gift", "Light", "Near stay"], "price": "€8–€20", "priority": "High", "where": "Companhia Portugueza do Chá, Rua do Poço dos Negros 105", "why": "Light, elegant, and easy to gift. Better than dragging back another fragile thing you’ll resent by airport security.", "lore": "This Lisbon tea shop is known for artisanal blends and a proper old-world retail atmosphere. The packaging has that quiet Portuguese charm: not loud, not desperate, just handsome.", "buyRule": "Buy Lisbon Breakfast or a house blend. Ask what is most Portuguese or shop-specific.", "skipIf": "Skip generic English Breakfast if it feels like something you could buy at home with better marketing.", "packing": "Carry-on or checked. Declare food.", "source": "https://companhiaportuguezadocha.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?tea,shop,lisbon"}, {"rank": 3, "city": "Lisbon", "title": "Piri-piri sauce", "short": "Cheap, useful heat. Not decorative nonsense.", "photo": "https://www.continente.pt/dw/image/v2/BDVS_PRD/on/demandware.static/-/Sites-col-master-catalog/default/dw388db8ee/images/col/551/5510134-hero.jpg?sh=2000&sw=2000", "tags": ["Pantry", "Cheap", "Checked bag"], "price": "€1–€6", "priority": "High", "where": "Continente, Pingo Doce, A Vida Portuguesa", "why": "This is the kind of tiny pantry item that makes dinner better six months later. That is the whole point.", "lore": "Piri-piri lives in the Portuguese orbit through centuries of travel, trade, and colonial history. In modern use, it’s grilled chicken, seafood, eggs, sandwiches, and little sparks of danger where bland food goes to die.", "buyRule": "Buy two: one supermarket workhorse, one nicer bottle if packaging earns it.", "skipIf": "Skip if it’s a big bottle. Sauce isn’t a personality, and luggage leaks are biblical.", "packing": "Checked bag only if over 100 ml. Tape the cap, double-bag it.", "source": "https://www.continente.pt/", "photoFallback": "https://source.unsplash.com/1200x900/?piri,piri,sauce"}, {"rank": 4, "city": "Lisbon", "title": "Claus Porto / Ach Brito soaps", "short": "Beautiful Portuguese soap that looks like you tried.", "photo": "https://clausporto.com/media/catalog/product/2/0/20221028_clausestudio5322_hr_1_bxcms16.jpg?fit=bounds&height=1500&optimize=medium&width=1000", "tags": ["Gift", "Packable", "Design"], "price": "€5–€30", "priority": "High", "where": "Claus Porto, A Vida Portuguesa, pharmacies", "why": "Gifts that are handsome, usable, and small. Exactly the lane. No one has to pretend to like a souvenir. They just use it.", "lore": "Claus Porto dates back to 1887 in Porto, Portugal. The brand’s whole thing is old Portuguese fragrance, soap craft, and packaging that looks like it came from a better-designed century.", "buyRule": "Buy wrapped bars, not big sets unless the price is clearly better than U.S. retail.", "skipIf": "Skip heavy boxes. The wrapper is the romance; the suitcase weight is the hangover.", "packing": "Easy. Put in shoes or side pockets.", "source": "https://clausporto.com/en/since-1887", "photoFallback": "https://source.unsplash.com/1200x900/?luxury,soap,packaging"}, {"rank": 5, "city": "Lisbon", "title": "Portuguese Flannel shirt", "short": "One real clothing buy, if the fit hits.", "photo": "https://www.portugueseflannel.com/cdn/shop/files/Labura_Linen_Navy_06_7256144d-c31e-4140-ad00-4ffb88d331b2_800x.jpg?v=1773223076", "tags": ["Apparel", "Personal", "Try on"], "price": "€80–€160", "priority": "Medium-high", "where": "Portuguese Flannel, Rua da Boavista 43", "why": "Portugal-made, wearable, and not a souvenir costume. This is a buy only if you can see yourself wearing it back in LA without narrating your vacation.", "lore": "Portuguese Flannel leans into Portugal’s textile tradition and a quiet menswear thing: good cloth, old mills, no need to scream.", "buyRule": "Try it on. Buy one, not three. One great shirt beats a small pile of almosts.", "skipIf": "Skip if the sleeves are weird, the collar annoys you, or you’re buying it because you feel like you should.", "packing": "Wear it on travel day if luggage gets tight.", "source": "https://www.portugueseflannel.com/pages/porto-store", "photoFallback": "https://source.unsplash.com/1200x900/?flannel,shirt,menswear"}, {"rank": 6, "city": "Lisbon", "title": "Flor de sal", "short": "Portuguese sea salt. Boring until dinner gets better.", "photo": "https://www.salmarim.com/uploads/destaque_produto/foto-banner_02_flor-de-sal-em-elements.jpg", "tags": ["Pantry", "Light", "Gift"], "price": "€2–€8", "priority": "Medium-high", "where": "Supermarkets, A Vida Portuguesa", "why": "Cheap, light, useful, and not easily ruined. A tiny gift for someone who cooks, or for future-you who wants better eggs.", "lore": "Sea salt is one of those humble coastal goods that makes sense in Portugal: Atlantic food, simple cooking, clean finishing salt.", "buyRule": "Buy one nice tin or pouch. Don’t buy a kilo like a maniac.", "skipIf": "Skip if the packaging is ugly and you already have three finishing salts at home.", "packing": "Easy. Declare food.", "source": "https://www.avidaportuguesa.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?sea,salt,flakes"}, {"rank": 7, "city": "Lisbon", "title": "A Vida Portuguesa small goods", "short": "Curated Portuguese pantry, soap, textiles, stationery.", "photo": "https://convida.pt/wp-content/uploads/2025/09/VidaPortuguesa-Convida-2025-010.webp", "tags": ["Gift", "Design", "Curated"], "price": "€3–€50", "priority": "Medium-high", "where": "A Vida Portuguesa, Chiado or nearby branches", "why": "Tourist-adjacent, yes. But curated well enough that it can still be good if you keep your head on straight.", "lore": "A Vida Portuguesa built its reputation by reviving and presenting traditional Portuguese everyday brands and objects: soaps, ceramics, notebooks, textiles, pantry goods, the whole handsome little domestic opera.", "buyRule": "Use it as a one-stop gift shop. Buy small, flat, useful things.", "skipIf": "Skip anything that feels like a prop in someone else’s Airbnb.", "packing": "Depends on item. Avoid fragile unless tiny.", "source": "https://www.avidaportuguesa.com/en/stores", "photoFallback": "https://source.unsplash.com/1200x900/?portugal,shop,ceramics"}, {"rank": 8, "city": "Lisbon", "title": "Small Portuguese ceramic", "short": "One small dish, sardine, or tile-adjacent piece.", "photo": "https://www.avidaportuguesa.com/assets/uploads/store/products/loica/sardinha-bordallo.jpg", "tags": ["Home", "Fragile", "Gift"], "price": "€10–€60", "priority": "Medium", "where": "A Vida Portuguesa, ceramics shops around Chiado/Príncipe Real", "why": "This can be great if it’s small enough to survive your life. A little dish gets used. A giant cabbage bowl becomes a hostage negotiation.", "lore": "Portugal’s ceramic tradition is real, from utility ware to decorative tile work. The trick is buying something with life after vacation.", "buyRule": "Palm-sized only. One piece. Hand-carry if you care about it.", "skipIf": "Skip anything large, heavy, or fragile enough to make you anxious.", "packing": "Wrap in clothing and hand-carry if possible.", "source": "https://www.avidaportuguesa.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?portuguese,ceramics"}, {"rank": 9, "city": "Amsterdam", "title": "Patta Amsterdam piece", "short": "Only if Amsterdam/store-specific or genuinely perfect.", "photo": "https://jp.patta.nl/cdn/shop/files/patta-amsterdam-chapter-t-shirt-blackpatta-amsterdam-chapter-t-shirt-blackapparelpattapatta-6129056.jpg?v=1757687571&width=800", "tags": ["Streetwear", "Amsterdam", "Personal"], "price": "€25–€208+", "priority": "Medium-high", "where": "Patta Amsterdam, Zeedijk 68–70", "why": "This is the Amsterdam streetwear stop that actually has local weight. But do not buy a random tee just because you walked in.", "lore": "Patta opened in Amsterdam in 2004 and grew out of sneaker hunting, music, youth culture, and the Dutch-Surinamese orbit. The word itself is Surinamese slang for shoe.", "buyRule": "Look for in-store exclusives, Amsterdam chapter pieces, cap, mug, or tee. Buy only if it beats online access.", "skipIf": "Skip generic seasonal pieces you can buy from LA at 1 a.m. while doomscrolling.", "packing": "Easy. Wear it if needed.", "source": "https://patta.nl/pages/about-us-1", "photoFallback": "https://source.unsplash.com/1200x900/?streetwear,amsterdam"}, {"rank": 10, "city": "Amsterdam", "title": "Dutch hagelslag", "short": "Chocolate sprinkles for bread. Weird, cheap, charming.", "photo": "https://petersgourmetmarket.com/cdn/shop/files/u8gk3jc2qrxzrx94nui7.jpg?v=1779210685&width=800", "tags": ["Snack", "Gift", "Cheap"], "price": "€2–€5", "priority": "Medium", "where": "Albert Heijn, HEMA", "why": "It’s local, light, inexpensive, and oddly delightful. The right kind of dumb.", "lore": "Hagelslag is a Dutch breakfast/snack staple: buttered bread with sprinkles. Sounds like a child invented it. Somehow, the child was right.", "buyRule": "Buy one classic chocolate and one odd flavor if you see it.", "skipIf": "Skip if the box is crushed or you know nobody in your life will understand joy.", "packing": "Carry-on or checked. Declare food.", "source": "https://www.ah.nl/", "photoFallback": "https://source.unsplash.com/1200x900/?chocolate,sprinkles,bread"}, {"rank": 11, "city": "Amsterdam", "title": "Dutch salty licorice", "short": "For brave friends and enemies you respect.", "photo": "https://petersgourmetmarket.com/cdn/shop/files/febnxekwwqkfgmpghc0m.jpg?v=1757956010&width=800", "tags": ["Snack", "Divisive", "Cheap"], "price": "€2–€6", "priority": "Medium", "where": "Albert Heijn, HEMA, candy shops", "why": "A tiny edible personality test. Great gift if you like watching people process betrayal.", "lore": "The Dutch love drop, including salty and double-salty versions. It is less candy, more cultural hazing.", "buyRule": "Buy one small bag. You are not opening a licorice import business.", "skipIf": "Skip if you only want universally loved gifts. This is not that.", "packing": "Easy. Declare food.", "source": "https://www.ah.nl/", "photoFallback": "https://source.unsplash.com/1200x900/?black,licorice,candy"}, {"rank": 12, "city": "London", "title": "Liberty small home/design gift", "short": "Textiles, stationery, beauty, small design objects.", "photo": "https://i8.amplience.net/i/liberty/000742336-R428020006-1?%24hi-res%24=", "tags": ["Gift", "Design", "London"], "price": "£5–£60", "priority": "Medium", "where": "Liberty London", "why": "Better for you than Selfridges. More specific, more giftable, less giant luxury mall energy.", "lore": "Liberty is tied to London retail history and textile/pattern culture. The building and product world feel specific in a way most department stores don’t anymore.", "buyRule": "Buy a small Liberty print object, handkerchief, notebook, or grooming item. Keep it tight.", "skipIf": "Skip if it’s just expensive cute. Cute is not a reason. Cute is a trap.", "packing": "Easy.", "source": "https://www.libertylondon.com/", "photoFallback": "https://source.unsplash.com/1200x900/?london,department,store,fabric"}, {"rank": 13, "city": "London", "title": "Choosing Keeping stationery", "short": "One beautiful paper object, not a school-supply binge.", "photo": "https://choosingkeeping.com/cdn/shop/files/YtkBXxJSHly9ANGLEk-LBHyUYRR4RShi2zMk50mWI-A.png?crop=center&height=1862&v=1755862413&width=2997", "tags": ["Gift", "Flat", "Small"], "price": "£3–£30", "priority": "Medium", "where": "Choosing Keeping, Covent Garden", "why": "Flat, thoughtful, easy to pack, and good for someone who appreciates objects with taste.", "lore": "Choosing Keeping is a London stationery shop with a careful, old-world eye: pencils, paper, notebooks, drawing tools, desk things that feel like they have souls.", "buyRule": "Buy one notebook, card set, pencil bundle, or desk object.", "skipIf": "Skip if you’re just buying stationery because it’s pretty. Pretty piles become clutter.", "packing": "Perfect carry-on item.", "source": "https://choosingkeeping.com/", "photoFallback": "https://source.unsplash.com/1200x900/?stationery,notebook,pencils"}, {"rank": 14, "city": "London", "title": "DSM London small accessory/object", "short": "A CDG/DSM weird thing if it earns the swipe.", "photo": "https://london.doverstreetmarket.com/cdn/shop/files/IGfeed_nikecdghp_announce_01_30bbaccc-fdf0-425e-804e-ffb3491bf5a2.jpg?v=1782385588&width=2232", "tags": ["Fashion", "Browse", "Ruthless"], "price": "£20–£250+", "priority": "Medium-low", "where": "Dover Street Market London", "why": "Worth seeing, not automatically worth buying. You have DSM LA. London has to prove itself.", "lore": "Dover Street Market was conceived by Rei Kawakubo and Adrian Joffe as a collision point for creators, fashion, and installations rather than a normal shop.", "buyRule": "Cap the visit at 45 minutes. Buy only London/DSM-specific, CDG oddities, books, fragrance, or a killer accessory.", "skipIf": "Skip any piece you can get at DSM LA or online without emotional damage.", "packing": "Easy unless you buy shoes or a jacket, which you probably should not.", "source": "https://london.doverstreetmarket.com/", "photoFallback": "https://source.unsplash.com/1200x900/?fashion,boutique,london"}, {"rank": 15, "city": "Belgium / Tomorrowland", "title": "Tomorrowland tee/cap/bandana", "short": "The only Belgium buy left on the board.", "photo": "https://store.tomorrowland.com/cdn/shop/files/32.0624.0817.139.3013_Detail.jpg?crop=center&height=5760&v=1720109772&width=5332", "tags": ["Memory buy", "Festival", "Small"], "price": "€20–€90", "priority": "Low but allowed", "where": "Official Tomorrowland festival / DreamVille merch", "why": "Belgium is no longer a shopping stop. This is a memory buy, not a value buy.", "lore": "Festival merch works when it is tied to the actual event and survives outside the festival. A cap or bandana can live. A giant flag usually goes to die in a closet.", "buyRule": "Buy early if you care about sizes. Keep it small.", "skipIf": "Skip anything oversized, fragile, or wearable only inside the Tomorrowland bubble.", "packing": "Easy. Wash before wearing at home unless you want the scent of three days of beautiful chaos.", "source": "https://belgium.tomorrowland.com/", "photoFallback": "https://source.unsplash.com/1200x900/?music,festival,crowd"}];
-const grid = document.getElementById('grid');
-const modal = document.getElementById('modal');
-const closeBtn = document.querySelector('.close');
-let activeFilter = 'All';
+  <script>
+    const ITEMS = [{"rank": 1, "city": "Lisbon", "title": "Portuguese tinned fish", "short": "Conservas from Lisbon, preferably Conserveira de Lisboa.", "photo": "https://www.myglobalviewpoint.com/wp-content/uploads/2024/07/Conserveira-de-Lisboa.webp", "tags": ["Pantry", "Gift", "Best overall"], "price": "€3–€10 per tin", "priority": "Main haul", "where": "Conserveira de Lisboa, Rua dos Bacalhoeiros 34/34A", "why": "Best souvenir-to-usefulness ratio on the whole trip. It looks good, travels well, feeds you later, and does not scream airport gift shop.", "lore": "Portugal has a deep conservas culture tied to the Atlantic and old-school preservation. Conserveira de Lisboa opened in 1930 and later became almost exclusively specialized in canned fish conserves, with Portuguese staples like cod, sardines, tuna, salmon, octopus, mackerel, eel, and trout.", "buyRule": "Buy on July 24. Get a spread: sardines, mackerel, tuna, spicy options, and one gorgeous label for gifting.", "skipIf": "Skip novelty birthday-year sardine tins unless the packaging is genuinely good. Cute can become dumb fast.", "packing": "Checked bag preferred. Declare food when entering the U.S.", "source": "https://lojascomhistoria.pt/shops/conserveira-de-lisboa", "photoFallback": "https://source.unsplash.com/1200x900/?portuguese,canned,sardines", "category": "Pantry", "tier": "Must Hit", "visitNote": "Lisbon final buy day. Pack it once.", "sourceNote": "Verified historic shop listing used because the official homepage can be flaky.", "mapQuery": "Conserveira de Lisboa Rua dos Bacalhoeiros 34 Lisboa Portugal", "imageAlt": "Portuguese tinned fish reference image", "verified": "Audited July 2026"}, {"rank": 2, "city": "Lisbon", "title": "Companhia Portugueza do Chá tea", "short": "Tea from the São Bento / Poço dos Negros zone.", "photo": "https://www.avidaportuguesa.com/assets/uploads/store/products/alimentacao/cha_lisbonb_1_cpc.jpg", "tags": ["Gift", "Light", "Near stay"], "price": "€6–€20", "priority": "High", "where": "Companhia Portugueza do Chá, Rua do Poço dos Negros 105", "why": "Light, elegant, and easy to gift. Better than dragging back another fragile thing you’ll resent by airport security.", "lore": "This Lisbon tea shop is known for artisanal blends and a proper old-world retail atmosphere. The packaging has that quiet Portuguese charm: not loud, not desperate, just handsome.", "buyRule": "Buy Lisbon Breakfast or a house blend. Ask what is most Portuguese or shop-specific.", "skipIf": "Skip generic English Breakfast if it feels like something you could buy at home with better marketing.", "packing": "Carry-on or checked. Declare food.", "source": "https://companhiaportuguezadocha.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?tea,shop,lisbon", "category": "Pantry", "tier": "Must Hit", "visitNote": "Near São Bento. Easy early Lisbon hit.", "sourceNote": "Official tea shop site.", "mapQuery": "Companhia Portugueza do Chá Rua do Poço dos Negros 105 Lisboa Portugal", "imageAlt": "Companhia Portugueza do Chá tea reference image", "verified": "Audited July 2026"}, {"rank": 3, "city": "Lisbon", "title": "Piri-piri sauce", "short": "Cheap, useful heat. The Continente 200 ml bottle is the ugly-beautiful workhorse.", "photo": "https://www.continente.pt/dw/image/v2/BDVS_PRD/on/demandware.static/-/Sites-col-master-catalog/default/dw388db8ee/images/col/551/5510134-hero.jpg?sh=2000&sw=2000", "tags": ["Pantry", "Cheap", "Checked bag"], "price": "€0.55–€6", "priority": "High", "where": "Continente, Pingo Doce, A Vida Portuguesa", "why": "This is the kind of tiny pantry item that makes dinner better six months later. That is the whole point.", "lore": "Piri-piri lives in the Portuguese orbit through centuries of travel, trade, and colonial history. In modern use, it’s grilled chicken, seafood, eggs, sandwiches, and little sparks of danger where bland food goes to die.", "buyRule": "Buy two: one supermarket workhorse, one nicer bottle if packaging earns it.", "skipIf": "Skip if it’s a big bottle. Sauce isn’t a personality, and luggage leaks are biblical.", "packing": "Checked bag only if over 100 ml. Tape the cap, double-bag it.", "source": "https://www.continente.pt/produto/molho-piri-piri-continente-continente-5510134.html", "photoFallback": "https://source.unsplash.com/1200x900/?piri,piri,sauce", "category": "Pantry", "tier": "Must Hit", "visitNote": "Grab during a supermarket run, not a special trip.", "sourceNote": "Official Continente product page.", "mapQuery": "supermarket near Rua São Bento 159 Lisboa Portugal piri-piri", "imageAlt": "Piri-piri sauce reference image", "verified": "Audited July 2026"}, {"rank": 4, "city": "Lisbon", "title": "Claus Porto / Ach Brito soaps", "short": "Beautiful Portuguese soap that looks like you tried.", "photo": "https://clausporto.com/media/catalog/product/2/0/20221028_clausestudio5322_hr_1_bxcms16.jpg?fit=bounds&height=1500&optimize=medium&width=1000", "tags": ["Gift", "Packable", "Design"], "price": "€5–€30", "priority": "High", "where": "Claus Porto, A Vida Portuguesa, pharmacies", "why": "Gifts that are handsome, usable, and small. Exactly the lane. No one has to pretend to like a souvenir. They just use it.", "lore": "Claus Porto dates back to 1887 in Porto, Portugal. The brand’s whole thing is old Portuguese fragrance, soap craft, and packaging that looks like it came from a better-designed century.", "buyRule": "Buy wrapped bars, not big sets unless the price is clearly better than U.S. retail.", "skipIf": "Skip heavy boxes. The wrapper is the romance; the suitcase weight is the hangover.", "packing": "Easy. Put in shoes or side pockets.", "source": "https://clausporto.com/en/since-1887", "photoFallback": "https://source.unsplash.com/1200x900/?luxury,soap,packaging", "category": "Gift", "tier": "Must Hit", "visitNote": "Easy gift stop. Good when you need something clean.", "sourceNote": "Official Claus Porto history page.", "mapQuery": "Claus Porto Lisbon Portugal", "imageAlt": "Claus Porto / Ach Brito soaps reference image", "verified": "Audited July 2026"}, {"rank": 5, "city": "Lisbon", "title": "Portuguese Flannel shirt", "short": "One real clothing buy, if the fit hits.", "photo": "https://www.portugueseflannel.com/cdn/shop/files/Labura_Linen_Navy_06_7256144d-c31e-4140-ad00-4ffb88d331b2_800x.jpg?v=1773223076", "tags": ["Apparel", "Personal", "Try on"], "price": "€80–€160", "priority": "Medium-high", "where": "Portuguese Flannel, Rua da Boavista 43", "why": "Portugal-made, wearable, and not a souvenir costume. This is a buy only if you can see yourself wearing it back in LA without narrating your vacation.", "lore": "Portuguese Flannel leans into Portugal’s textile tradition and a quiet menswear thing: good cloth, old mills, no need to scream.", "buyRule": "Try it on. Buy one, not three. One great shirt beats a small pile of almosts.", "skipIf": "Skip if the sleeves are weird, the collar annoys you, or you’re buying it because you feel like you should.", "packing": "Wear it on travel day if luggage gets tight.", "source": "https://www.portugueseflannel.com/pages/porto-store", "photoFallback": "https://source.unsplash.com/1200x900/?flannel,shirt,menswear", "category": "Apparel", "tier": "If Nearby", "visitNote": "Try on only. Do not buy blind.", "sourceNote": "Official store page.", "mapQuery": "Portuguese Flannel Rua da Boavista 43 Lisboa Portugal", "imageAlt": "Portuguese Flannel shirt reference image", "verified": "Audited July 2026"}, {"rank": 6, "city": "Lisbon", "title": "Flor de sal", "short": "Portuguese sea salt. Boring until dinner gets better.", "photo": "https://www.salmarim.com/uploads/destaque_produto/foto-banner_02_flor-de-sal-em-elements.jpg", "tags": ["Pantry", "Light", "Gift"], "price": "€2–€26", "priority": "Medium-high", "where": "Supermarkets, A Vida Portuguesa, Salmarim stockists", "why": "Cheap, light, useful, and not easily ruined. A tiny gift for someone who cooks, or for future-you who wants better eggs.", "lore": "Sea salt is one of those humble coastal goods that makes sense in Portugal: Atlantic food, simple cooking, clean finishing salt. If you see Salmarim, that is a strong pick: hand-harvested in the Castro Marim Nature Reserve with packaging that has design-award energy without becoming useless.", "buyRule": "Buy one nice tin or pouch. Don’t buy a kilo like a maniac.", "skipIf": "Skip if the packaging is ugly and you already have three finishing salts at home.", "packing": "Easy. Declare food.", "source": "https://www.salmarim.com/en/fleur-de-sel", "photoFallback": "https://source.unsplash.com/1200x900/?sea,salt,flakes", "category": "Pantry", "tier": "If Nearby", "visitNote": "Tiny pantry add-on. Good with tins/tea.", "sourceNote": "Official Salmarim product page.", "mapQuery": "A Vida Portuguesa Chiado Lisboa Portugal", "imageAlt": "Flor de sal reference image", "verified": "Audited July 2026"}, {"rank": 7, "city": "Lisbon", "title": "A Vida Portuguesa small goods", "short": "Curated Portuguese pantry, soap, textiles, stationery.", "photo": "https://convida.pt/wp-content/uploads/2025/09/VidaPortuguesa-Convida-2025-010.webp", "tags": ["Gift", "Design", "Curated"], "price": "€3–€50", "priority": "Medium-high", "where": "A Vida Portuguesa Chiado, Rua Nova do Almada 72", "why": "Tourist-adjacent, yes. But curated well enough that it can still be good if you keep your head on straight.", "lore": "A Vida Portuguesa built its reputation by reviving and presenting traditional Portuguese everyday brands and objects: soaps, ceramics, notebooks, textiles, pantry goods, the whole handsome little domestic opera.", "buyRule": "Use it as a one-stop gift shop. Buy small, flat, useful things.", "skipIf": "Skip anything that feels like a prop in someone else’s Airbnb.", "packing": "Depends on item. Avoid fragile unless tiny.", "source": "https://www.avidaportuguesa.com/en/stores", "photoFallback": "https://source.unsplash.com/1200x900/?portugal,shop,ceramics", "category": "Gift", "tier": "If Nearby", "visitNote": "One-stop Lisbon gift shop. Stay disciplined.", "sourceNote": "Official stores page.", "mapQuery": "A Vida Portuguesa Chiado Rua Nova do Almada 72 Lisboa Portugal", "imageAlt": "A Vida Portuguesa small goods reference image", "verified": "Audited July 2026"}, {"rank": 8, "city": "Lisbon", "title": "Small Portuguese ceramic", "short": "One small dish, sardine, or tile-adjacent piece.", "photo": "https://www.avidaportuguesa.com/assets/uploads/store/products/loica/sardinha-bordallo.jpg", "tags": ["Home", "Fragile", "Gift"], "price": "€10–€60", "priority": "Medium", "where": "A Vida Portuguesa, ceramics shops around Chiado/Príncipe Real", "why": "This can be great if it’s small enough to survive your life. A little dish gets used. A giant cabbage bowl becomes a hostage negotiation.", "lore": "Portugal’s ceramic tradition is real, from utility ware to decorative tile work. The trick is buying something with life after vacation.", "buyRule": "Palm-sized only. One piece. Hand-carry if you care about it.", "skipIf": "Skip anything large, heavy, or fragile enough to make you anxious.", "packing": "Wrap in clothing and hand-carry if possible.", "source": "https://www.avidaportuguesa.com/en", "photoFallback": "https://source.unsplash.com/1200x900/?portuguese,ceramics", "category": "Home", "tier": "If Nearby", "visitNote": "Only palm-sized. Hand-carry if fragile.", "sourceNote": "A Vida Portuguesa landing page; exact ceramic inventory may vary.", "mapQuery": "A Vida Portuguesa Chiado Rua Nova do Almada 72 Lisboa Portugal ceramics", "imageAlt": "Small Portuguese ceramic reference image", "verified": "Audited July 2026"}, {"rank": 9, "city": "Amsterdam", "title": "Patta Amsterdam piece", "short": "Only if Amsterdam/store-specific or genuinely perfect.", "photo": "https://jp.patta.nl/cdn/shop/files/patta-amsterdam-chapter-t-shirt-blackpatta-amsterdam-chapter-t-shirt-blackapparelpattapatta-6129056.jpg?v=1757687571&width=800", "tags": ["Streetwear", "Amsterdam", "Personal"], "price": "€25–€208+", "priority": "Medium-high", "where": "Patta Amsterdam, Zeedijk 68–70", "why": "This is the Amsterdam streetwear stop that actually has local weight. The real target is the in-store-only Amsterdam Chapter stuff, not generic seasonal product you can order from your couch.", "lore": "Patta opened in Amsterdam in 2004 and grew out of sneaker hunting, music, youth culture, and the Dutch-Surinamese orbit. The word itself is Surinamese slang for shoe.", "buyRule": "Look for in-store exclusives: Amsterdam Chapter mug, tee, cap, or a piece that clearly says this trip mattered without looking like a souvenir costume.", "skipIf": "Skip generic seasonal pieces you can buy from LA at 1 a.m. while doomscrolling.", "packing": "Easy. Wear it if needed.", "source": "https://patta.nl/pages/stores/patta-amsterdam", "photoFallback": "https://source.unsplash.com/1200x900/?streetwear,amsterdam", "category": "Apparel", "tier": "Must Hit", "visitNote": "Hit right after hotel drop if you have energy.", "sourceNote": "Official Patta Amsterdam store page.", "mapQuery": "Patta Amsterdam Zeedijk 68 Amsterdam Netherlands", "imageAlt": "Patta Amsterdam piece reference image", "verified": "Audited July 2026"}, {"rank": 10, "city": "Amsterdam", "title": "Dutch hagelslag", "short": "Chocolate sprinkles for bread. Weird, cheap, charming.", "photo": "https://petersgourmetmarket.com/cdn/shop/files/u8gk3jc2qrxzrx94nui7.jpg?v=1779210685&width=800", "tags": ["Snack", "Gift", "Cheap"], "price": "€2–€5", "priority": "Medium", "where": "Albert Heijn, HEMA", "why": "It’s local, light, inexpensive, and oddly delightful. The right kind of dumb.", "lore": "Hagelslag is a Dutch breakfast/snack staple: buttered bread with sprinkles. Sounds like a child invented it. Somehow, the child was right.", "buyRule": "Buy one classic chocolate and one odd flavor if you see it.", "skipIf": "Skip if the box is crushed or you know nobody in your life will understand joy.", "packing": "Carry-on or checked. Declare food.", "source": "https://www.ah.nl/", "photoFallback": "https://source.unsplash.com/1200x900/?chocolate,sprinkles,bread", "category": "Snack", "tier": "If Nearby", "visitNote": "Albert Heijn snack run. No pilgrimage required.", "sourceNote": "Albert Heijn homepage; use in-store search.", "mapQuery": "Albert Heijn near Hyatt Regency Amsterdam Sarphatistraat 104 Amsterdam Netherlands", "imageAlt": "Dutch hagelslag reference image", "verified": "Audited July 2026"}, {"rank": 11, "city": "Amsterdam", "title": "Dutch salty licorice", "short": "For brave friends and enemies you respect.", "photo": "https://petersgourmetmarket.com/cdn/shop/files/febnxekwwqkfgmpghc0m.jpg?v=1757956010&width=800", "tags": ["Snack", "Divisive", "Cheap"], "price": "€2–€6", "priority": "Medium", "where": "Albert Heijn, HEMA, candy shops", "why": "A tiny edible personality test. Great gift if you like watching people process betrayal.", "lore": "The Dutch love drop, including salty and double-salty versions. It is less candy, more cultural hazing.", "buyRule": "Buy one small bag. You are not opening a licorice import business.", "skipIf": "Skip if you only want universally loved gifts. This is not that.", "packing": "Easy. Declare food.", "source": "https://www.ah.nl/", "photoFallback": "https://source.unsplash.com/1200x900/?black,licorice,candy", "category": "Snack", "tier": "If Nearby", "visitNote": "Buy small. Weaponized candy.", "sourceNote": "Albert Heijn homepage; use in-store search.", "mapQuery": "Albert Heijn near Hyatt Regency Amsterdam Sarphatistraat 104 Amsterdam Netherlands", "imageAlt": "Dutch salty licorice reference image", "verified": "Audited July 2026"}, {"rank": 12, "city": "London", "title": "Liberty small home/design gift", "short": "Textiles, stationery, beauty, small design objects.", "photo": "https://i8.amplience.net/i/liberty/000742336-R428020006-1?%24hi-res%24=", "tags": ["Gift", "Design", "London"], "price": "£5–£60", "priority": "Medium", "where": "Liberty London", "why": "Better for you than Selfridges. More specific, more giftable, less giant luxury mall energy.", "lore": "Liberty is tied to London retail history and textile/pattern culture. The building and product world feel specific in a way most department stores don’t anymore.", "buyRule": "Buy a small Liberty print object, handkerchief, notebook, or grooming item. Keep it tight.", "skipIf": "Skip if it’s just expensive cute. Cute is not a reason. Cute is a trap.", "packing": "Easy.", "source": "https://www.libertylondon.com/", "photoFallback": "https://source.unsplash.com/1200x900/?london,department,store,fabric", "category": "Gift", "tier": "If Nearby", "visitNote": "Better London gift stop than Selfridges.", "sourceNote": "Official Liberty site.", "mapQuery": "Liberty London Great Marlborough Street London United Kingdom", "imageAlt": "Liberty small home/design gift reference image", "verified": "Audited July 2026"}, {"rank": 13, "city": "London", "title": "Choosing Keeping stationery", "short": "One beautiful paper object, not a school-supply binge.", "photo": "https://choosingkeeping.com/cdn/shop/files/YtkBXxJSHly9ANGLEk-LBHyUYRR4RShi2zMk50mWI-A.png?crop=center&height=1862&v=1755862413&width=2997", "tags": ["Gift", "Flat", "Small"], "price": "£3–£30", "priority": "Medium", "where": "Choosing Keeping, Covent Garden", "why": "Flat, thoughtful, easy to pack, and good for someone who appreciates objects with taste.", "lore": "Choosing Keeping is a London stationery shop with a careful, old-world eye: pencils, paper, notebooks, drawing tools, desk things that feel like they have souls.", "buyRule": "Buy one notebook, card set, pencil bundle, or desk object.", "skipIf": "Skip if you’re just buying stationery because it’s pretty. Pretty piles become clutter.", "packing": "Perfect carry-on item.", "source": "https://choosingkeeping.com/", "photoFallback": "https://source.unsplash.com/1200x900/?stationery,notebook,pencils", "category": "Stationery", "tier": "If Nearby", "visitNote": "Flat, small, easy. Good London add-on.", "sourceNote": "Official shop site.", "mapQuery": "Choosing Keeping 21 Tower Street London United Kingdom", "imageAlt": "Choosing Keeping stationery reference image", "verified": "Audited July 2026"}, {"rank": 14, "city": "London", "title": "DSM London small accessory/object", "short": "A CDG/DSM weird thing if it earns the swipe.", "photo": "https://london.doverstreetmarket.com/cdn/shop/files/IGfeed_nikecdghp_announce_01_30bbaccc-fdf0-425e-804e-ffb3491bf5a2.jpg?v=1782385588&width=2232", "tags": ["Fashion", "Browse", "Ruthless"], "price": "£20–£250+", "priority": "Medium-low", "where": "Dover Street Market London", "why": "Worth seeing, not automatically worth buying. You have DSM LA. London has to prove itself.", "lore": "Dover Street Market was conceived by Rei Kawakubo and Adrian Joffe as a collision point for creators, fashion, and installations rather than a normal shop.", "buyRule": "Cap the visit at 45 minutes. Buy only London/DSM-specific, CDG oddities, books, fragrance, or a killer accessory.", "skipIf": "Skip any piece you can get at DSM LA or online without emotional damage.", "packing": "Easy unless you buy shoes or a jacket, which you probably should not.", "source": "https://london.doverstreetmarket.com/pages/dsm-locations", "photoFallback": "https://source.unsplash.com/1200x900/?fashion,boutique,london", "category": "Apparel", "tier": "Skip Unless Bored", "visitNote": "45-minute cap. You have DSM LA.", "sourceNote": "Official DSM London location page.", "mapQuery": "Dover Street Market London 18-22 Haymarket London United Kingdom", "imageAlt": "DSM London small accessory/object reference image", "verified": "Audited July 2026"}, {"rank": 15, "city": "Belgium / Tomorrowland", "title": "Tomorrowland tee/cap/bandana", "short": "The only Belgium buy left on the board.", "photo": "https://store.tomorrowland.com/cdn/shop/files/32.0624.0817.139.3013_Detail.jpg?crop=center&height=5760&v=1720109772&width=5332", "tags": ["Memory buy", "Festival", "Small"], "price": "€20–€90", "priority": "Low but allowed", "where": "Official Tomorrowland / DreamVille stores in Boom", "why": "Belgium is no longer a shopping stop. This is a memory buy, not a value buy.", "lore": "Festival merch works when it is tied to the actual event and survives outside the festival. A cap or bandana can live. A giant flag usually goes to die in a closet.", "buyRule": "Buy early if you care about sizes. The official store lists Belgium festival-area and DreamVille stores during Tomorrowland, so this is the one Belgium exception that makes sense.", "skipIf": "Skip anything oversized, fragile, or wearable only inside the Tomorrowland bubble.", "packing": "Easy. Wash before wearing at home unless you want the scent of three days of beautiful chaos.", "source": "https://store.tomorrowland.com/en-us/pages/official-stores", "photoFallback": "https://source.unsplash.com/1200x900/?music,festival,crowd", "category": "Memory", "tier": "If Nearby", "visitNote": "Only Belgium buy. Festival memory, not a haul.", "sourceNote": "Official Tomorrowland store locations page.", "mapQuery": "Tomorrowland DreamVille Boom Belgium", "imageAlt": "Tomorrowland tee/cap/bandana reference image", "verified": "Audited July 2026"}];
 
-function render() {
-  grid.innerHTML = '';
-  ITEMS
-    .filter(item => activeFilter === 'All' || item.city === activeFilter)
-    .forEach(item => {
-      const card = document.createElement('article');
-      card.className = 'card';
-      card.tabIndex = 0;
-      card.innerHTML = `
-        <img src="${item.photo}" data-fallback="${item.photoFallback || ''}" alt="Representative photo for ${item.title}" loading="lazy" onerror="this.onerror=null; if(this.dataset.fallback){this.src=this.dataset.fallback;} else {this.style.display='none';}">
-        <div class="rank">#${item.rank}</div>
-        <div class="city">${item.city}</div>
-        <div class="card-body">
-          <h2>${item.title}</h2>
-          <p>${item.short}</p>
-          <div class="chips">${item.tags.map(t => `<span class="chip">${t}</span>`).join('')}</div>
-        </div>`;
-      card.addEventListener('click', () => openModal(item));
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openModal(item);
-        }
+    const STORAGE_KEY = "europeSouvenirSaved.v3";
+    const state = {
+      city: "All",
+      category: "All",
+      tier: "All",
+      query: "",
+      savedOnly: false
+    };
+
+    const grid = document.getElementById("grid");
+    const modal = document.getElementById("modal");
+    const closeBtn = document.querySelector(".close");
+    const emptyState = document.getElementById("emptyState");
+    const resultCount = document.getElementById("resultCount");
+    const savedCount = document.getElementById("savedCount");
+    const searchInput = document.getElementById("searchInput");
+    const categorySelect = document.getElementById("categorySelect");
+    const tierSelect = document.getElementById("tierSelect");
+    const savedOnlyBtn = document.getElementById("savedOnlyBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let savedItems = loadSaved();
+    let lastFocusedElement = null;
+
+    function loadSaved() {
+      try {
+        return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"));
+      } catch {
+        return new Set();
+      }
+    }
+
+    function persistSaved() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...savedItems]));
+    }
+
+    function itemId(item) {
+      return `${item.rank}-${item.title}`;
+    }
+
+    function googleMapsLink(item) {
+      if (!item.mapQuery) return "";
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+    }
+
+    function sourceText(item) {
+      return [
+        item.title,
+        item.short,
+        item.city,
+        item.category,
+        item.tier,
+        item.priority,
+        item.where,
+        item.why,
+        item.lore,
+        item.buyRule,
+        item.skipIf,
+        item.visitNote,
+        ...(item.tags || [])
+      ].join(" ").toLowerCase();
+    }
+
+    function normalize(value) {
+      return (value || "").toString().trim().toLowerCase();
+    }
+
+    function filteredItems() {
+      const query = normalize(state.query);
+      return ITEMS.filter(item => {
+        const matchesCity = state.city === "All" || item.city === state.city;
+        const matchesCategory = state.category === "All" || item.category === state.category;
+        const matchesTier = state.tier === "All" || item.tier === state.tier;
+        const matchesQuery = !query || sourceText(item).includes(query);
+        const matchesSaved = !state.savedOnly || savedItems.has(itemId(item));
+        return matchesCity && matchesCategory && matchesTier && matchesQuery && matchesSaved;
       });
-      grid.appendChild(card);
+    }
+
+    function imageMarkup(item) {
+      const fallback = item.photoFallback || "";
+      return `
+        <img
+          src="${item.photo}"
+          data-fallback="${fallback}"
+          alt="${item.imageAlt || `Reference image for ${item.title}`}"
+          loading="lazy"
+          onerror="handleImgError(this)"
+        />
+        <div class="image-fallback">Image unavailable. Tap for details.</div>
+      `;
+    }
+
+    window.handleImgError = function(img) {
+      const fallback = img.dataset.fallback;
+      if (fallback && img.src !== fallback) {
+        img.src = fallback;
+        img.dataset.fallback = "";
+        return;
+      }
+      img.style.display = "none";
+      const fallbackBox = img.parentElement?.querySelector(".image-fallback");
+      if (fallbackBox) fallbackBox.style.display = "grid";
+    };
+
+    function render() {
+      const items = filteredItems();
+      grid.innerHTML = "";
+
+      items.forEach(item => {
+        const id = itemId(item);
+        const isSaved = savedItems.has(id);
+        const mapHref = googleMapsLink(item);
+
+        const card = document.createElement("article");
+        card.className = "card";
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", `Open details for ${item.title}`);
+        card.innerHTML = `
+          <div class="card-media">
+            ${imageMarkup(item)}
+            <div class="rank">#${item.rank}</div>
+            <button class="save-button" type="button" aria-label="${isSaved ? "Unsave" : "Save"} ${item.title}" aria-pressed="${isSaved}">${isSaved ? "♥" : "♡"}</button>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span>${item.city.replace("Belgium / ", "")}</span>
+              <span class="tier">${item.tier}</span>
+            </div>
+            <h2>${item.title}</h2>
+            <p>${item.short}</p>
+            <div class="chips">
+              <span class="chip">${item.category}</span>
+              ${(item.tags || []).slice(0, 2).map(tag => `<span class="chip">${tag}</span>`).join("")}
+            </div>
+            <div class="card-actions">
+              ${mapHref ? `<a class="mini-link" href="${mapHref}" target="_blank" rel="noopener noreferrer" aria-label="Open Google Maps for ${item.title}">Map</a>` : ""}
+              <a class="mini-link" href="${item.source}" target="_blank" rel="noopener noreferrer" aria-label="Open source for ${item.title}">Source</a>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener("click", () => openModal(item));
+        card.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openModal(item);
+          }
+        });
+
+        card.querySelector(".save-button").addEventListener("click", event => {
+          event.stopPropagation();
+          toggleSaved(item);
+        });
+
+        card.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", event => event.stopPropagation());
+        });
+
+        grid.appendChild(card);
+      });
+
+      emptyState.classList.toggle("show", items.length === 0);
+      updateCounts(items.length);
+      syncFilterButtons();
+    }
+
+    function updateCounts(visibleCount) {
+      const saved = savedItems.size;
+      savedCount.textContent = `${saved} saved`;
+      if (state.savedOnly) {
+        resultCount.innerHTML = `<strong>${visibleCount}</strong> saved hit${visibleCount === 1 ? "" : "s"}`;
+      } else if (state.query || state.city !== "All" || state.category !== "All" || state.tier !== "All") {
+        resultCount.innerHTML = `<strong>${visibleCount}</strong> match${visibleCount === 1 ? "" : "es"}`;
+      } else {
+        resultCount.innerHTML = `Showing <strong>${visibleCount}</strong> hits`;
+      }
+      savedOnlyBtn.textContent = state.savedOnly ? "♥" : "♡";
+      savedOnlyBtn.setAttribute("aria-pressed", String(state.savedOnly));
+    }
+
+    function toggleSaved(item) {
+      const id = itemId(item);
+      if (savedItems.has(id)) savedItems.delete(id);
+      else savedItems.add(id);
+      persistSaved();
+      render();
+    }
+
+    function openModal(item) {
+      lastFocusedElement = document.activeElement;
+      const modalImg = document.getElementById("modalImg");
+      const modalFallback = document.getElementById("modalFallback");
+
+      modalImg.style.display = "block";
+      modalFallback.style.display = "none";
+      modalImg.onerror = function() {
+        const fallback = item.photoFallback;
+        if (fallback && modalImg.src !== fallback) {
+          modalImg.src = fallback;
+          return;
+        }
+        modalImg.style.display = "none";
+        modalFallback.style.display = "grid";
+      };
+      modalImg.src = item.photo;
+      modalImg.alt = item.imageAlt || `Reference image for ${item.title}`;
+
+      document.getElementById("modalKicker").textContent = `#${item.rank} · ${item.city} · ${item.tier}`;
+      document.getElementById("modalTitle").textContent = item.title;
+      document.getElementById("modalShort").textContent = item.short;
+      document.getElementById("modalTags").innerHTML = [item.category, ...(item.tags || [])].map(tag => `<span class="chip">${tag}</span>`).join("");
+      document.getElementById("modalVisitNote").textContent = item.visitNote || "Needs verification.";
+      document.getElementById("modalWhere").textContent = item.where;
+      document.getElementById("modalPrice").textContent = item.price;
+      document.getElementById("modalPriority").textContent = item.priority;
+      document.getElementById("modalPacking").textContent = item.packing;
+      document.getElementById("modalCategory").textContent = item.category;
+      document.getElementById("modalVerified").textContent = item.verified || "Needs verification";
+      document.getElementById("modalWhy").textContent = item.why;
+      document.getElementById("modalLore").textContent = item.lore;
+      document.getElementById("modalBuy").textContent = item.buyRule;
+      document.getElementById("modalSkip").textContent = item.skipIf;
+      document.getElementById("modalSourceNote").textContent = item.sourceNote || "";
+      document.getElementById("modalSource").href = item.source;
+
+      const mapHref = googleMapsLink(item);
+      const mapLink = document.getElementById("modalMap");
+      if (mapHref) {
+        mapLink.href = mapHref;
+        mapLink.style.display = "inline-flex";
+      } else {
+        mapLink.removeAttribute("href");
+        mapLink.style.display = "none";
+      }
+
+      modal.classList.add("open");
+      document.body.classList.add("modal-lock");
+      closeBtn.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+      document.body.classList.remove("modal-lock");
+      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+      }
+    }
+
+    function setCity(city) {
+      state.city = city;
+      render();
+    }
+
+    function syncFilterButtons() {
+      document.querySelectorAll("[data-filter]").forEach(btn => {
+        const isActive = btn.dataset.filter === state.city;
+        btn.classList.toggle("active", isActive);
+        if (btn.closest(".bottom-nav")) btn.setAttribute("aria-current", isActive ? "page" : "false");
+      });
+      categorySelect.value = state.category;
+      tierSelect.value = state.tier;
+    }
+
+    function populateCategoryFilter() {
+      const categories = [...new Set(ITEMS.map(item => item.category).filter(Boolean))].sort();
+      categories.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
+      });
+    }
+
+    function resetFilters() {
+      state.city = "All";
+      state.category = "All";
+      state.tier = "All";
+      state.query = "";
+      state.savedOnly = false;
+      searchInput.value = "";
+      render();
+    }
+
+    document.querySelectorAll("[data-filter]").forEach(btn => {
+      btn.addEventListener("click", () => setCity(btn.dataset.filter));
     });
-}
 
-function openModal(item) {
-  const modalImg = document.getElementById('modalImg');
-  modalImg.onerror = function() {
-    this.onerror = null;
-    if (item.photoFallback) this.src = item.photoFallback;
-  };
-  modalImg.src = item.photo;
-  modalImg.alt = `Representative photo for ${item.title}`;
-  document.getElementById('modalKicker').textContent = `#${item.rank} · ${item.city}`;
-  document.getElementById('modalTitle').textContent = item.title;
-  document.getElementById('modalShort').textContent = item.short;
-  document.getElementById('modalTags').innerHTML = item.tags.map(t => `<span class="chip">${t}</span>`).join('');
-  document.getElementById('modalWhere').textContent = item.where;
-  document.getElementById('modalPrice').textContent = item.price;
-  document.getElementById('modalPriority').textContent = item.priority;
-  document.getElementById('modalPacking').textContent = item.packing;
-  document.getElementById('modalWhy').textContent = item.why;
-  document.getElementById('modalLore').textContent = item.lore;
-  document.getElementById('modalBuy').textContent = item.buyRule;
-  document.getElementById('modalSkip').textContent = item.skipIf;
-  document.getElementById('modalSource').href = item.source;
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
+    searchInput.addEventListener("input", event => {
+      state.query = event.target.value;
+      render();
+    });
 
-function closeModal() {
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
+    categorySelect.addEventListener("change", event => {
+      state.category = event.target.value;
+      render();
+    });
 
-document.querySelectorAll('.filter').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeFilter = btn.dataset.filter;
+    tierSelect.addEventListener("change", event => {
+      state.tier = event.target.value;
+      render();
+    });
+
+    savedOnlyBtn.addEventListener("click", () => {
+      state.savedOnly = !state.savedOnly;
+      render();
+    });
+
+    resetBtn.addEventListener("click", resetFilters);
+
+    closeBtn.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (!modal.classList.contains("open")) return;
+
+      if (event.key === "Escape") {
+        closeModal();
+        return;
+      }
+
+      if (event.key === "Tab") {
+        const focusables = modal.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+        const list = [...focusables].filter(el => el.offsetParent !== null);
+        if (!list.length) return;
+        const first = list[0];
+        const last = list[list.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    populateCategoryFilter();
     render();
-  });
-});
-
-closeBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) closeModal();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
-});
-
-render();
-</script>
+  </script>
 </body>
 </html>
